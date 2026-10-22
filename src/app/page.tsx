@@ -190,7 +190,7 @@ function Services() {
 
 function Work() {
   return (
-    <section id="work" className="grain relative z-10 bg-night text-white">
+    <section id="work" data-island-dark className="grain relative z-10 bg-night text-white">
       <Container className="py-24 md:py-28">
         <div className="reveal text-center">
           <h2 className="font-display text-[clamp(36px,4.6vw,56px)] font-semibold tracking-[-0.035em] text-balance">

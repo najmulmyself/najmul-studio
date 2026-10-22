@@ -81,12 +81,25 @@ body {
 .island {
   transition:
     width 0.5s cubic-bezier(0.32, 1.32, 0.42, 1),
-    border-radius 0.5s cubic-bezier(0.32, 1.32, 0.42, 1);
+    border-radius 0.5s cubic-bezier(0.32, 1.32, 0.42, 1),
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease;
 }
 .island-panel {
   transition:
     grid-template-rows 0.45s cubic-bezier(0.32, 1.2, 0.42, 1),
     opacity 0.25s ease;
+}
+/* Menu items pop in one after another as the island opens. */
+.island-item {
+  transition-property: opacity, transform, background-color;
+  transition-duration: 0.35s, 0.45s, 0.2s;
+  transition-timing-function: ease, cubic-bezier(0.32, 1.3, 0.42, 1), ease;
+}
+.island[data-open="false"] .island-item {
+  opacity: 0;
+  transform: translateY(8px) scale(0.96);
 }
 
 /* FAQ answers slide open where the browser supports it. */
@@ -215,7 +228,8 @@ summary::-webkit-details-marker {
   }
   details::details-content,
   .island,
-  .island-panel {
+  .island-panel,
+  .island-item {
     transition: none;
   }
 }
