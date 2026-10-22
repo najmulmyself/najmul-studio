@@ -36,7 +36,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          // Marks the page as JS-enabled before paint, so scroll reveals don't flash.
+          dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }}
+        />
+      </head>
       <body className={`${display.variable} ${body.variable} ${hand.variable} font-sans antialiased`}>
         {children}
       </body>

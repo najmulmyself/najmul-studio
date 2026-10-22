@@ -1,4 +1,5 @@
 import { HeroPhone } from "@/components/hero-phone";
+import { RevealOnScroll } from "@/components/reveal";
 import { ArrowUpRight, Button, Container, Eyebrow, SocialIcons, TextLink, TwoTone } from "@/components/ui";
 import { APPS, FAQ, SERVICES, SITE, STATS, STEPS, TESTIMONIALS, type AppCard } from "@/data/site";
 import Image from "next/image";
@@ -20,6 +21,7 @@ export default function Home() {
         <Faq />
         <Contact />
       </main>
+      <RevealOnScroll />
     </div>
   );
 }
@@ -49,7 +51,7 @@ function Nav() {
     ["FAQ", "#faq"],
   ];
   return (
-    <header className="sticky top-0 z-20 border-b border-line bg-paper/80 backdrop-blur-md">
+    <header className="sticky top-0 z-20 border-b border-black/5 bg-paper/70 backdrop-blur-xl backdrop-saturate-150">
       <Container className="flex h-16 items-center justify-between">
         <a href="#top" className="font-display text-xl font-bold tracking-tight">
           najmul<span className="text-accent">.</span>
@@ -85,7 +87,7 @@ function Hero() {
             <span className="font-normal text-faint">to the</span>{" "}
             <span className="font-semibold">App&nbsp;Store.</span>
           </h1>
-          <p className="mt-7 text-[19px] leading-relaxed text-ink-soft">
+          <p className="mt-7 text-[19px] leading-relaxed text-pretty text-ink-soft">
             I build iOS apps people actually download (one passed 100k) and AI automations that do
             your boring work.
           </p>
@@ -138,7 +140,7 @@ function Stats() {
 function About() {
   return (
     <Section>
-      <Container className="py-24 md:py-28">
+      <Container className="reveal py-24 md:py-28">
         <TwoTone quiet="Studied geography." loud="Ended up mapping apps." className="text-[clamp(36px,4.6vw,56px)]" />
         <div className="mt-16 grid items-start gap-14 md:grid-cols-[minmax(0,380px)_1fr] md:gap-20">
           <figure>
@@ -184,7 +186,7 @@ function About() {
 function Services() {
   return (
     <Section id="services">
-      <Container className="py-24 md:py-28">
+      <Container className="reveal py-24 md:py-28">
         <Eyebrow>Services</Eyebrow>
         <TwoTone
           quiet="Pick your problem."
@@ -193,7 +195,7 @@ function Services() {
         />
         <div className="mt-14 grid gap-4 md:grid-cols-3">
           {SERVICES.map((service, i) => (
-            <article key={service.title} className="flex flex-col rounded-3xl bg-chip p-7">
+            <article key={service.title} className="glass flex flex-col rounded-[28px] p-7 transition-transform duration-300 hover:-translate-y-1">
               <span className="font-display text-sm font-semibold text-accent">0{i + 1}</span>
               <h3 className="mt-3 font-display text-[23px] leading-tight font-semibold tracking-[-0.02em]">
                 {service.title}
@@ -217,15 +219,22 @@ function Work() {
   return (
     <section id="work" className="grain relative z-10 bg-night text-white">
       <Container className="py-24 md:py-28">
-        <div className="text-center">
-          <h2 className="font-display text-[clamp(36px,4.6vw,56px)] font-semibold tracking-[-0.035em]">
+        <div className="reveal text-center">
+          <h2 className="font-display text-[clamp(36px,4.6vw,56px)] font-semibold tracking-[-0.035em] text-balance">
             Apps that made it out of my laptop.
           </h2>
           <p className="mt-3 text-night-muted">Real apps, on real stores, used by real people.</p>
         </div>
         <div className="mt-14 grid gap-5 md:grid-cols-2">
           {APPS.map((app) => (
-            <AppCardView key={app.name} app={app} />
+            <div key={app.name} className="reveal relative">
+              <div
+                aria-hidden="true"
+                className="absolute -top-6 -left-6 size-56 rounded-full opacity-30 blur-3xl"
+                style={{ background: app.color }}
+              />
+              <AppCardView app={app} />
+            </div>
           ))}
         </div>
         <p className="mt-12 text-center text-[17px] text-night-muted">
@@ -246,14 +255,14 @@ function AppCardView({ app }: { app: AppCard }) {
     .join("")
     .slice(0, 2);
   return (
-    <article className="flex flex-col rounded-3xl border border-night-line bg-night-card p-6 md:p-7">
+    <article className="glass-dark relative flex h-full flex-col rounded-[28px] p-6 md:p-7">
       <div className="flex items-start gap-4">
         {app.icon ? (
           <Image src={app.icon} alt="" width={56} height={56} className="size-14 rounded-2xl" />
         ) : (
           <span
             aria-hidden="true"
-            className="flex size-14 shrink-0 items-center justify-center rounded-2xl font-display text-lg font-bold"
+            className="flex size-14 shrink-0 items-center justify-center rounded-[16px] font-display text-lg font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]"
             style={{ background: app.color, color: app.onColor }}
           >
             {initials}
@@ -282,7 +291,7 @@ function AppCardView({ app }: { app: AppCard }) {
       </ul>
       <dl className="mt-5 grid grid-cols-3 gap-2">
         {app.stats.map((s) => (
-          <div key={s.label} className="flex flex-col rounded-2xl border border-night-line px-2 py-3.5 text-center">
+          <div key={s.label} className="flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] px-2 py-3.5 text-center">
             <dt className="text-[11px] text-night-muted">{s.label}</dt>
             <dd className="order-first font-display text-lg font-semibold" style={{ color: app.color }}>
               {s.value}
@@ -294,7 +303,7 @@ function AppCardView({ app }: { app: AppCard }) {
         href={app.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl font-semibold transition-opacity hover:opacity-90"
+        className="sheen mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-full font-semibold transition-[opacity,transform] duration-200 hover:opacity-90 active:scale-[0.98]"
         style={{ background: app.color, color: app.onColor }}
       >
         Open on {app.store} <ArrowUpRight />
@@ -306,8 +315,8 @@ function AppCardView({ app }: { app: AppCard }) {
 function Hook() {
   return (
     <Section className="border-t-0">
-      <Container className="py-24 text-center md:py-32">
-        <p className="mx-auto max-w-[820px] font-display text-[clamp(30px,4.2vw,50px)] leading-[1.08] font-semibold tracking-[-0.035em]">
+      <Container className="reveal py-24 text-center md:py-32">
+        <p className="mx-auto max-w-[820px] text-balance font-display text-[clamp(30px,4.2vw,50px)] leading-[1.08] font-semibold tracking-[-0.035em]">
           Your app idea has been sitting in your Notes app since 2023.{" "}
           <span className="font-normal text-faint">Let’s get it out.</span>
         </p>
@@ -325,7 +334,7 @@ function Hook() {
 function Process() {
   return (
     <Section id="process">
-      <Container className="py-24 md:py-28">
+      <Container className="reveal py-24 md:py-28">
         <div className="text-center">
           <h2 className="font-display text-[clamp(32px,4vw,48px)] leading-[1.05] font-semibold tracking-[-0.035em]">
             From “hey” to the App&nbsp;Store
@@ -335,7 +344,7 @@ function Process() {
         </div>
         <ol className="mt-14 grid gap-4 md:grid-cols-3">
           {STEPS.map((step, i) => (
-            <li key={step.title} className="rounded-3xl border border-line bg-white p-7">
+            <li key={step.title} className="glass rounded-[28px] p-7">
               <span className="font-display text-[56px] leading-none font-semibold text-line">{i + 1}</span>
               <p className="mt-4 text-[13px] font-semibold text-accent">Step {i + 1}</p>
               <h3 className="mt-1 font-display text-[22px] font-semibold tracking-[-0.02em]">{step.title}</h3>
@@ -376,13 +385,13 @@ function KindWords() {
 function Faq() {
   return (
     <Section id="faq">
-      <Container className="py-24 md:py-28">
+      <Container className="reveal py-24 md:py-28">
         <h2 className="text-center font-display text-[clamp(32px,4vw,48px)] font-semibold tracking-[-0.035em]">
           Still got questions?
         </h2>
         <div className="mx-auto mt-12 max-w-[680px] space-y-2.5">
           {FAQ.map((item) => (
-            <details key={item.q} className="group rounded-2xl bg-chip px-6 py-5">
+            <details key={item.q} className="glass group rounded-[22px] px-6 py-5">
               <summary className="flex cursor-pointer items-center gap-4 font-semibold">
                 <span
                   aria-hidden="true"
@@ -412,7 +421,8 @@ function Contact() {
   ] as const;
   return (
     <Section id="contact">
-      <Container className="py-24 text-center md:py-32">
+      <Container className="reveal relative py-24 text-center md:py-32">
+        <div aria-hidden="true" className="absolute top-1/2 left-1/2 -z-10 h-72 w-[min(640px,90vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/15 blur-3xl" />
         <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white py-1 pr-3.5 pl-1 text-sm font-semibold shadow-sm">
           <Image src={SITE.photo} alt="" width={28} height={28} className="size-7 rounded-full object-cover object-top" />
           {SITE.shortName}
@@ -446,7 +456,7 @@ function Contact() {
         </div>
         <p className="mt-8 font-hand text-2xl text-muted">psst. it’s just an email to a real human.</p>
 
-        <div className="mx-auto mt-16 flex max-w-[720px] flex-col items-center justify-between gap-4 rounded-3xl bg-chip px-6 py-5 sm:flex-row">
+        <div className="glass mx-auto mt-16 flex max-w-[720px] flex-col items-center justify-between gap-4 rounded-full px-6 py-4 sm:flex-row max-sm:rounded-[28px]">
           <a
             href={`mailto:${SITE.email}`}
             className="flex min-w-0 items-center gap-3 text-[17px] font-medium hover:text-accent"
@@ -465,7 +475,7 @@ function Contact() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.name}
-                className="flex size-11 items-center justify-center rounded-xl bg-ink text-white transition-colors hover:bg-accent"
+                className="sheen flex size-11 items-center justify-center rounded-full bg-ink text-white transition-[background-color,transform] hover:bg-accent active:scale-95"
               >
                 {SocialIcons[s.name]}
               </a>

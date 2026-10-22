@@ -54,16 +54,19 @@ export function Button({
 }: {
   href: string;
   children: ReactNode;
-  variant?: "accent" | "ink";
+  variant?: "accent" | "ink" | "glass";
   className?: string;
 }) {
-  const colors =
-    variant === "accent" ? "bg-accent text-white hover:bg-accent-hover" : "bg-ink text-white hover:bg-ink-soft";
+  const colors = {
+    accent: "sheen bg-accent text-white hover:bg-accent-hover",
+    ink: "sheen bg-ink text-white hover:bg-ink-soft",
+    glass: "glass text-ink hover:bg-white/80",
+  }[variant];
   return (
     <a
       href={href}
       {...linkProps(href)}
-      className={`inline-flex min-h-12 items-center gap-2 rounded-xl px-5 font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${colors} ${className}`}
+      className={`inline-flex min-h-12 items-center gap-2 rounded-full px-6 font-semibold transition-[background-color,transform] duration-200 active:scale-[0.97] ${colors} ${className}`}
     >
       {children}
     </a>
