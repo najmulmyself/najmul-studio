@@ -1,8 +1,9 @@
 import { DynamicIsland } from "@/components/dynamic-island";
 import { HeroPhone } from "@/components/hero-phone";
 import { RevealOnScroll } from "@/components/reveal";
+import { ServiceCards } from "@/components/services";
 import { ArrowUpRight, Button, Container, Eyebrow, SocialIcons, TextLink, TwoTone } from "@/components/ui";
-import { APPS, FAQ, SERVICES, SITE, STATS, STEPS, TESTIMONIALS, type AppCard } from "@/data/site";
+import { APPS, FAQ, SITE, STATS, STEPS, TESTIMONIALS, type AppCard } from "@/data/site";
 import Image from "next/image";
 
 export default function Home() {
@@ -166,23 +167,7 @@ function Services() {
           loud="I’ll pick up the keyboard."
           className="mt-4 text-[clamp(36px,4.6vw,56px)]"
         />
-        <div className="mt-14 grid gap-4 md:grid-cols-3">
-          {SERVICES.map((service, i) => (
-            <article key={service.title} className="glass flex flex-col rounded-[28px] p-7 transition-transform duration-300 hover:-translate-y-1">
-              <span className="font-display text-sm font-semibold text-accent">0{i + 1}</span>
-              <h3 className="mt-3 font-display text-[23px] leading-tight font-semibold tracking-[-0.02em]">
-                {service.title}
-              </h3>
-              <p className="mt-3 flex-1 leading-relaxed text-ink-soft">
-                {service.body}
-                {i === 1 && SITE.automationExample && ` ${SITE.automationExample}`}
-              </p>
-              <TextLink href="#contact" className="mt-6">
-                {service.cta}
-              </TextLink>
-            </article>
-          ))}
-        </div>
+        <ServiceCards />
       </Container>
     </Section>
   );
