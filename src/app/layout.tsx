@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Caveat, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const display = Bricolage_Grotesque({
+  variable: "--font-display",
+  subsets: ["latin"],
+  axes: ["opsz"],
+});
+
+const body = Hanken_Grotesk({
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const hand = Caveat({
+  variable: "--font-hand",
   subsets: ["latin"],
+  weight: ["500", "700"],
 });
 
 const title = "Najmul Huda: indie iOS developer & AI automation";
@@ -30,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+      <body className={`${display.variable} ${body.variable} ${hand.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>

@@ -1,21 +1,30 @@
 // Everything the home page says lives here. Leave an optional field empty
 // ("" or []) and the part of the page that uses it stays hidden.
 
-export type App = {
+export type AppCard = {
   name: string;
-  summary: string;
-  platforms: string;
+  tagline: string;
+  stack: string;
+  platforms: ("iOS" | "Android")[];
+  tags: string[];
+  // Each app gets its own color for its icon, stats and button.
+  color: string;
+  // Text color on top of `color` (for the button).
+  onColor: string;
+  stats: [Stat, Stat, Stat];
   href: string;
+  store: string;
+  // Optional app icon in /public. Without one, a tile with initials is shown.
+  icon?: string;
 };
 
-export type Testimonial = {
-  quote: string;
-  name: string;
-  role: string;
-};
+export type Stat = { value: string; label: string };
+
+export type Testimonial = { quote: string; name: string; role: string };
 
 export const SITE = {
   name: "Najmul Huda",
+  shortName: "Najmul",
   email: "najmul.myself@gmail.com",
   status: "Taking new projects",
   location: "Dhaka, GMT+6",
@@ -23,6 +32,7 @@ export const SITE = {
   photo: "/me.jpg",
   github: "https://github.com/najmulmyself",
   linkedin: "https://www.linkedin.com/in/najmulmyself/",
+  x: "https://x.com/najmulmyself",
 
   // Optional. Fill these in when you have them.
   bookingUrl: "", // e.g. a Calendly link
@@ -32,9 +42,9 @@ export const SITE = {
   automationExample: "", // one real example of an automation you built
 };
 
-export const STATS = [
+export const STATS: Stat[] = [
   { value: "100k+", label: "downloads on one solo app" },
-  { value: "3+ years", label: "shipping to the stores" },
+  { value: "3+ yrs", label: "shipping to the stores" },
   { value: "80%+", label: "test coverage on payment code" },
   { value: "1 dev", label: "no meetings about meetings" },
 ];
@@ -57,38 +67,70 @@ export const SERVICES = [
   },
 ];
 
-export const FEATURED_APP = {
-  name: "Dream Kit 25",
-  tag: "Indie · built solo",
-  summary:
-    "A kit app for football gamers that grew to 100k+ downloads and pays for itself with ads. Idea, code, monetization and launch: all me.",
-  stats: [
-    { value: "100k+", label: "downloads" },
-    { value: "$120/mo", label: "ad revenue" },
-  ],
-  href: "https://play.google.com/store/apps/details?id=com.sakib.dreamkit",
-  linkLabel: "See it on Google Play",
-  screenshot: "", // e.g. "/dream-kit.png"; hidden until added
-};
-
-export const APPS: App[] = [
+export const APPS: AppCard[] = [
+  {
+    name: "Dream Kit 25",
+    tagline: "A kit app for football gamers. Built, monetized and launched solo.",
+    stack: "Flutter • Provider • AdMob",
+    platforms: ["Android"],
+    tags: ["Indie", "Gaming"],
+    color: "#3DDC84",
+    onColor: "#0B1A10",
+    stats: [
+      { value: "100k+", label: "Downloads" },
+      { value: "$120/mo", label: "Ad revenue" },
+      { value: "Solo", label: "Built & shipped" },
+    ],
+    href: "https://play.google.com/store/apps/details?id=com.sakib.dreamkit",
+    store: "Google Play",
+  },
   {
     name: "Gold Kinen",
-    summary: "Fintech app rebuilt on Clean Architecture. Auto-Save payments at 80%+ test coverage.",
-    platforms: "iOS · Android",
+    tagline: "Save in gold automatically, with recurring bKash payments.",
+    stack: "Flutter • BLoC • Clean Architecture",
+    platforms: ["iOS", "Android"],
+    tags: ["Fintech"],
+    color: "#F5C542",
+    onColor: "#1F1600",
+    stats: [
+      { value: "80%+", label: "Test coverage" },
+      { value: "BLoC", label: "Architecture" },
+      { value: "bKash", label: "Auto-Save" },
+    ],
     href: "https://play.google.com/store/apps/details?id=com.goldkinen.android",
+    store: "Google Play",
   },
   {
     name: "Skill Finesse",
-    summary: "A learning app on both stores, with reminders that keep students coming back.",
-    platforms: "iOS · Android",
+    tagline: "A learning app with reminders that keep students coming back.",
+    stack: "Flutter • Provider • SQFLite",
+    platforms: ["iOS", "Android"],
+    tags: ["Education"],
+    color: "#A78BFA",
+    onColor: "#150B33",
+    stats: [
+      { value: "2", label: "App stores" },
+      { value: "Modular", label: "Architecture" },
+      { value: "Push", label: "Reminders" },
+    ],
     href: "https://apps.apple.com/us/app/skill-finesse/id6477940594",
+    store: "App Store",
   },
   {
     name: "Stayverz",
-    summary: "Hotel booking with real-time availability, secure payments and booking alerts.",
-    platforms: "Android",
+    tagline: "Hotel booking with real-time availability and secure payments.",
+    stack: "Flutter • Provider • Payments",
+    platforms: ["Android"],
+    tags: ["Travel"],
+    color: "#FB7185",
+    onColor: "#2A0710",
+    stats: [
+      { value: "Live", label: "Booking flows" },
+      { value: "Secure", label: "Payments" },
+      { value: "Push", label: "Booking alerts" },
+    ],
     href: "https://play.google.com/store/apps/details?id=com.stayverz.stayverz",
+    store: "Google Play",
   },
 ];
 
