@@ -1,10 +1,11 @@
 import { DynamicIsland } from "@/components/dynamic-island";
 import { HeroPhone } from "@/components/hero-phone";
+import { ProcessSteps } from "@/components/process-steps";
 import { RevealOnScroll } from "@/components/reveal";
 import { ServiceCards } from "@/components/services";
 import { StatWidgets } from "@/components/stat-widgets";
 import { ArrowUpRight, Button, Container, Eyebrow, SocialIcons, TextLink, TwoTone } from "@/components/ui";
-import { APPS, FAQ, SITE, STEPS, TESTIMONIALS, type AppCard } from "@/data/site";
+import { APPS, FAQ, SITE, TESTIMONIALS, type AppCard } from "@/data/site";
 import Image from "next/image";
 
 export default function Home() {
@@ -285,23 +286,13 @@ function Process() {
             From “hey” to the App&nbsp;Store
             <br className="hidden md:block" /> in three steps.
           </h2>
-          <p className="mt-3 text-muted">No fluff, no surprise invoices.</p>
+          <p className="mt-3 text-muted">Tap a step, or just sit back and watch.</p>
         </div>
-        <ol className="mt-14 grid gap-4 md:grid-cols-3">
-          {STEPS.map((step, i) => (
-            <li key={step.title} className="glass rounded-[28px] p-7">
-              <span className="font-display text-[56px] leading-none font-semibold text-line">{i + 1}</span>
-              <p className="mt-4 text-[13px] font-semibold text-accent">Step {i + 1}</p>
-              <h3 className="mt-1 font-display text-[22px] font-semibold tracking-[-0.02em]">{step.title}</h3>
-              <p className="mt-2 leading-relaxed text-ink-soft">{step.body}</p>
-            </li>
-          ))}
-        </ol>
-        <div className="mt-12 text-center">
+        <ProcessSteps>
           <Button href={SITE.bookingUrl || "#contact"} variant="ink">
             Book a free 20-minute call
           </Button>
-        </div>
+        </ProcessSteps>
       </Container>
     </Section>
   );
