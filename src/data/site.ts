@@ -115,6 +115,7 @@ export const APPS: AppCard[] = [
     ],
     href: "https://apps.apple.com/us/app/skill-finesse/id6477940594",
     store: "App Store",
+    icon: "/icons/skill-finesse.webp",
   },
   {
     name: "Stayverz",

@@ -14,7 +14,7 @@ function initials(name: string) {
 }
 
 function AppIcon({ app, className = "size-14 rounded-[16px] text-lg" }: { app: AppCard; className?: string }) {
-  if (app.icon) return <Image src={app.icon} alt="" width={64} height={64} className={className} />;
+  if (app.icon) return <Image src={app.icon} alt="" width={128} height={128} className={`max-w-none shrink-0 object-cover ${className}`} />;
   return (
     <span
       aria-hidden="true"
@@ -100,6 +100,7 @@ function GoldScreen() {
 }
 
 function SkillScreen() {
+  const skillFinesse = APPS.find((a) => a.name === "Skill Finesse");
   const lessons = [
     ["Intro to Design", 100],
     ["Colors that work", 70],
@@ -108,7 +109,11 @@ function SkillScreen() {
   return (
     <div className="relative flex h-full flex-col bg-[#120d22] px-4 pt-14 pb-6 text-white">
       <div className="pop absolute inset-x-2.5 top-10 z-10 flex gap-2.5 rounded-[18px] border border-white/15 bg-white/15 p-2.5 backdrop-blur-xl [--d:700ms]">
-        <span className="size-8 shrink-0 rounded-[9px] bg-[#A78BFA]" />
+        {skillFinesse ? (
+          <AppIcon app={skillFinesse} className="size-8 rounded-[9px] text-[10px]" />
+        ) : (
+          <span className="size-8 shrink-0 rounded-[9px] bg-[#A78BFA]" />
+        )}
         <span className="min-w-0 text-[11px] leading-snug">
           <span className="block font-semibold">Skill Finesse</span>
           <span className="block text-white/70">10 minutes today keeps the streak alive.</span>
@@ -304,7 +309,7 @@ export function AppShowcase() {
             <div className="relative h-[568px] overflow-hidden rounded-[38px] bg-[#07080d] text-white">
               {/* Home screen */}
               <div
-                className={`phone-home absolute inset-0 px-5 pt-14 ${open ? "scale-[0.94] opacity-40 blur-[2px]" : ""}`}
+                className={`phone-home absolute inset-0 px-4 pt-14 ${open ? "scale-[0.94] opacity-40 blur-[2px]" : ""}`}
                 inert={open}
               >
                 <div aria-hidden="true" className="absolute inset-0 -z-0">
@@ -312,7 +317,7 @@ export function AppShowcase() {
                   <div className="absolute top-1/2 -right-20 size-56 rounded-full bg-[#7c3aed]/35 blur-3xl" />
                   <div className="absolute -bottom-10 left-0 size-52 rounded-full bg-[#ff8a3d]/25 blur-3xl" />
                 </div>
-                <div className="relative grid grid-cols-4 gap-x-3 gap-y-4">
+                <div className="relative grid grid-cols-4 gap-x-2 gap-y-4">
                   {APPS.map((a, i) => (
                     <button
                       key={a.name}
