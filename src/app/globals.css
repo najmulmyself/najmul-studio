@@ -208,6 +208,19 @@ body {
   }
 }
 
+/* Work: apps launch from their icon and close back to the home screen, like iOS. */
+.phone-home {
+  transition:
+    transform 0.45s cubic-bezier(0.32, 1, 0.42, 1),
+    opacity 0.35s ease,
+    filter 0.35s ease;
+}
+.phone-app {
+  transition:
+    transform 0.45s cubic-bezier(0.32, 1.12, 0.42, 1),
+    opacity 0.22s ease;
+}
+
 /* FAQ answers slide open where the browser supports it. */
 details::details-content {
   height: 0;
@@ -362,7 +375,9 @@ summary::-webkit-details-marker {
     animation-duration: 1ms;
     animation-delay: 0ms;
   }
-  .stage {
+  .stage,
+  .phone-home,
+  .phone-app {
     transition: none;
   }
 }

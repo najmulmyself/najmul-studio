@@ -1,3 +1,4 @@
+import { AppShowcase } from "@/components/app-showcase";
 import { DynamicIsland } from "@/components/dynamic-island";
 import { HeroPhone } from "@/components/hero-phone";
 import { ProcessSteps } from "@/components/process-steps";
@@ -5,7 +6,7 @@ import { RevealOnScroll } from "@/components/reveal";
 import { ServiceCards } from "@/components/services";
 import { StatWidgets } from "@/components/stat-widgets";
 import { ArrowUpRight, Button, Container, Eyebrow, SocialIcons, TextLink, TwoTone } from "@/components/ui";
-import { APPS, FAQ, SITE, TESTIMONIALS, type AppCard } from "@/data/site";
+import { FAQ, SITE, TESTIMONIALS } from "@/data/site";
 import Image from "next/image";
 
 export default function Home() {
@@ -169,20 +170,9 @@ function Work() {
           <h2 className="font-display text-[clamp(36px,4.6vw,56px)] font-semibold tracking-[-0.035em] text-balance">
             Apps that made it out of my laptop.
           </h2>
-          <p className="mt-3 text-night-muted">Real apps, on real stores, used by real people.</p>
+          <p className="mt-3 text-night-muted">Real apps, on real stores. Go on, tap one.</p>
         </div>
-        <div className="mt-14 grid gap-5 md:grid-cols-2">
-          {APPS.map((app) => (
-            <div key={app.name} className="reveal relative">
-              <div
-                aria-hidden="true"
-                className="absolute -top-6 -left-6 size-56 rounded-full opacity-30 blur-3xl"
-                style={{ background: app.color }}
-              />
-              <AppCardView app={app} />
-            </div>
-          ))}
-        </div>
+        <AppShowcase />
         <p className="mt-12 text-center text-[17px] text-night-muted">
           Want your app on this list?{" "}
           <a href="#contact" className="font-semibold text-white underline-offset-4 hover:underline">
@@ -191,70 +181,6 @@ function Work() {
         </p>
       </Container>
     </section>
-  );
-}
-
-function AppCardView({ app }: { app: AppCard }) {
-  const initials = app.name
-    .split(" ")
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 2);
-  return (
-    <article className="glass-dark relative flex h-full flex-col rounded-[28px] p-6 md:p-7">
-      <div className="flex items-start gap-4">
-        {app.icon ? (
-          <Image src={app.icon} alt="" width={56} height={56} className="size-14 rounded-2xl" />
-        ) : (
-          <span
-            aria-hidden="true"
-            className="flex size-14 shrink-0 items-center justify-center rounded-[16px] font-display text-lg font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]"
-            style={{ background: app.color, color: app.onColor }}
-          >
-            {initials}
-          </span>
-        )}
-        <div className="min-w-0">
-          <h3 className="font-display text-2xl font-semibold tracking-[-0.02em]">{app.name}</h3>
-          <p className="mt-1 text-[15px] leading-snug text-night-muted">{app.tagline}</p>
-        </div>
-      </div>
-      <p className="mt-5 text-[13px] text-night-muted/80">{app.stack}</p>
-      <ul className="mt-3 flex flex-wrap gap-1.5 text-[11px] font-semibold tracking-wider uppercase">
-        {app.platforms.map((p) => (
-          <li
-            key={p}
-            className={`rounded-md px-2 py-1 ${p === "iOS" ? "bg-[#2a2440] text-[#c4b5fd]" : "bg-[#16301f] text-[#86efac]"}`}
-          >
-            {p}
-          </li>
-        ))}
-        {app.tags.map((t) => (
-          <li key={t} className="rounded-md bg-white/8 px-2 py-1 text-night-muted">
-            {t}
-          </li>
-        ))}
-      </ul>
-      <dl className="mt-5 grid grid-cols-3 gap-2">
-        {app.stats.map((s) => (
-          <div key={s.label} className="flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] px-2 py-3.5 text-center">
-            <dt className="text-[11px] text-night-muted">{s.label}</dt>
-            <dd className="order-first font-display text-lg font-semibold" style={{ color: app.color }}>
-              {s.value}
-            </dd>
-          </div>
-        ))}
-      </dl>
-      <a
-        href={app.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="sheen mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-full font-semibold transition-[opacity,transform] duration-200 hover:opacity-90 active:scale-[0.98]"
-        style={{ background: app.color, color: app.onColor }}
-      >
-        Open on {app.store} <ArrowUpRight />
-      </a>
-    </article>
   );
 }
 
