@@ -2,8 +2,9 @@ import { DynamicIsland } from "@/components/dynamic-island";
 import { HeroPhone } from "@/components/hero-phone";
 import { RevealOnScroll } from "@/components/reveal";
 import { ServiceCards } from "@/components/services";
+import { StatWidgets } from "@/components/stat-widgets";
 import { ArrowUpRight, Button, Container, Eyebrow, SocialIcons, TextLink, TwoTone } from "@/components/ui";
-import { APPS, FAQ, SITE, STATS, STEPS, TESTIMONIALS, type AppCard } from "@/data/site";
+import { APPS, FAQ, SITE, STEPS, TESTIMONIALS, type AppCard } from "@/data/site";
 import Image from "next/image";
 
 export default function Home() {
@@ -90,23 +91,9 @@ function Hero() {
 function Stats() {
   return (
     <Section>
-      <div className="mx-auto max-w-[1120px]">
-        <dl className="grid grid-cols-2 md:grid-cols-4">
-          {STATS.map((stat, i) => (
-            <div
-              key={stat.label}
-              className={`flex flex-col px-6 py-8 md:px-10 ${i % 2 === 1 ? "border-l border-line" : ""} ${
-                i === 2 ? "border-t border-line md:border-t-0 md:border-l" : ""
-              } ${i === 3 ? "border-t border-line md:border-t-0" : ""}`}
-            >
-              <dt className="text-sm text-muted">{stat.label}</dt>
-              <dd className="order-first font-display text-[38px] font-semibold tracking-[-0.03em]">
-                {stat.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </div>
+      <Container className="py-10 md:py-12">
+        <StatWidgets />
+      </Container>
     </Section>
   );
 }
