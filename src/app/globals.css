@@ -77,6 +77,18 @@ body {
     0 10px 24px -12px rgb(0 0 0 / 0.45);
 }
 
+/* Dynamic Island header: springs between the pill and the open panel. */
+.island {
+  transition:
+    width 0.5s cubic-bezier(0.32, 1.32, 0.42, 1),
+    border-radius 0.5s cubic-bezier(0.32, 1.32, 0.42, 1);
+}
+.island-panel {
+  transition:
+    grid-template-rows 0.45s cubic-bezier(0.32, 1.2, 0.42, 1),
+    opacity 0.25s ease;
+}
+
 /* FAQ answers slide open where the browser supports it. */
 details::details-content {
   height: 0;
@@ -201,7 +213,9 @@ summary::-webkit-details-marker {
     transform: none;
     transition: none;
   }
-  details::details-content {
+  details::details-content,
+  .island,
+  .island-panel {
     transition: none;
   }
 }

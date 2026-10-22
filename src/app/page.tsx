@@ -1,3 +1,4 @@
+import { DynamicIsland } from "@/components/dynamic-island";
 import { HeroPhone } from "@/components/hero-phone";
 import { RevealOnScroll } from "@/components/reveal";
 import { ArrowUpRight, Button, Container, Eyebrow, SocialIcons, TextLink, TwoTone } from "@/components/ui";
@@ -8,7 +9,7 @@ export default function Home() {
   return (
     <div className="relative overflow-x-clip">
       <Frame />
-      <Nav />
+      <DynamicIsland />
       <main>
         <Hero />
         <Stats />
@@ -43,38 +44,10 @@ function Section({ id, children, className = "" }: { id?: string; children: Reac
   );
 }
 
-function Nav() {
-  const links = [
-    ["Services", "#services"],
-    ["Work", "#work"],
-    ["Process", "#process"],
-    ["FAQ", "#faq"],
-  ];
-  return (
-    <header className="sticky top-0 z-20 border-b border-black/5 bg-paper/70 backdrop-blur-xl backdrop-saturate-150">
-      <Container className="flex h-16 items-center justify-between">
-        <a href="#top" className="font-display text-xl font-bold tracking-tight">
-          najmul<span className="text-accent">.</span>
-        </a>
-        <nav aria-label="Main" className="flex items-center gap-7 text-[15px] font-medium">
-          {links.map(([label, href]) => (
-            <a key={href} href={href} className="hidden text-ink-soft hover:text-ink md:inline">
-              {label}
-            </a>
-          ))}
-          <Button href="#contact" className="min-h-10 rounded-lg px-4 text-[15px]">
-            Hire me
-          </Button>
-        </nav>
-      </Container>
-    </header>
-  );
-}
-
 function Hero() {
   return (
     <section id="top" className="relative">
-      <Container className="flex flex-col items-center gap-16 py-20 md:flex-row md:justify-between md:py-28">
+      <Container className="flex flex-col items-center gap-16 pt-32 pb-20 md:flex-row md:justify-between md:pt-40 md:pb-28">
         <div className="max-w-[560px]">
           <Eyebrow>
             Indie iOS development <span className="mx-1.5 text-faint">·</span> AI automation
