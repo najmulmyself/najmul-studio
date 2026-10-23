@@ -1,5 +1,6 @@
 import { AppShowcase } from "@/components/app-showcase";
 import { DynamicIsland } from "@/components/dynamic-island";
+import { FaqChat } from "@/components/faq-chat";
 import { IdeaNote } from "@/components/idea-note";
 import { HeroPhone } from "@/components/hero-phone";
 import { ProcessSteps } from "@/components/process-steps";
@@ -244,31 +245,23 @@ function KindWords() {
 }
 
 function Faq() {
+  // The chat only reveals answers on tap, so search engines get them all here.
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
   return (
     <Section id="faq">
-      <Container className="reveal py-24 md:py-28">
-        <h2 className="text-center font-display text-[clamp(32px,4vw,48px)] font-semibold tracking-[-0.035em]">
-          Still got questions?
-        </h2>
-        <div className="mx-auto mt-12 max-w-[680px] space-y-2.5">
-          {FAQ.map((item) => (
-            <details key={item.q} className="glass group rounded-[22px] px-6 py-5">
-              <summary className="flex cursor-pointer items-center gap-4 font-semibold">
-                <span
-                  aria-hidden="true"
-                  className="text-xl leading-none text-accent transition-transform group-open:rotate-45"
-                >
-                  +
-                </span>
-                {item.q}
-              </summary>
-              <p className="mt-3 pl-8 leading-relaxed text-ink-soft">{item.a}</p>
-            </details>
-          ))}
-        </div>
-        <p className="mt-8 text-center text-ink-soft">
-          Didn’t see yours? <TextLink href="#contact">Just ask</TextLink>
-        </p>
+      <Container className="reveal py-24 text-center md:py-28">
+        <h2 className="font-display text-[clamp(32px,4vw,48px)] font-semibold tracking-[-0.035em]">Still got questions?</h2>
+        <p className="mt-3 text-muted">Tap one. I’ll answer like a normal person.</p>
+        <FaqChat />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       </Container>
     </Section>
   );
