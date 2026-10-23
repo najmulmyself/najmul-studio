@@ -1,5 +1,6 @@
 import { AppShowcase } from "@/components/app-showcase";
 import { DynamicIsland } from "@/components/dynamic-island";
+import { IdeaNote } from "@/components/idea-note";
 import { HeroPhone } from "@/components/hero-phone";
 import { ProcessSteps } from "@/components/process-steps";
 import { RevealOnScroll } from "@/components/reveal";
@@ -195,9 +196,7 @@ function Hook() {
         <p className="mt-5 text-[18px] text-ink-soft">
           Tell me about it in one sentence. I’ll tell you how I’d build it, for free.
         </p>
-        <Button href="#contact" variant="ink" className="mt-9">
-          Get a free build plan
-        </Button>
+        <IdeaNote />
       </Container>
     </Section>
   );
