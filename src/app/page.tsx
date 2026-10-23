@@ -352,10 +352,6 @@ function Contact() {
               <TextLink href={SITE.bookingUrl}>Book a call</TextLink>
             </>
           )}
-          {" · "}
-          <a href={SITE.resume} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
-            Résumé (PDF)
-          </a>
         </p>
       </Container>
       <footer className="border-t border-line">
@@ -363,7 +359,6 @@ function Contact() {
           <span>
             © {new Date().getFullYear()} {SITE.name}
           </span>
-          <span>Built by a human, polished by robots.</span>
         </Container>
       </footer>
     </Section>

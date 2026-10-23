@@ -215,10 +215,18 @@ function TeamCard() {
           {s.title}
         </h3>
         <p className="mt-4 max-w-md leading-relaxed text-ink/75">{s.body}</p>
-        <div className="mt-6">
+        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
           <Pill href="#contact" className="sheen bg-[#5b3df5] text-white">
             {s.cta}
           </Pill>
+          <a
+            href={SITE.resume}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-[#5b3df5] underline-offset-4 hover:underline"
+          >
+            Résumé (PDF)
+          </a>
         </div>
       </div>
 
