@@ -37,7 +37,7 @@ export const SITE = {
   // Optional. Fill these in when you have them.
   // Your Cal.com event, the part after cal.com/ (e.g. "najmul/discovery-call").
   // Until it's set, the project form ends by emailing the details instead.
-  calLink: "",
+  calLink: "najmulmyself/15min",
   replyTime: "", // e.g. "Usually replies within a day"
   quoteTime: "", // e.g. "3 days", used in "a fixed quote within …"
   startingPrice: "", // e.g. "$2,000"

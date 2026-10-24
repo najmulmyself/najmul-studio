@@ -80,7 +80,7 @@ function Hero() {
           </div>
           <p className="mt-6 flex items-center gap-2 text-sm text-muted">
             <span className="size-2 rounded-full bg-[#1f9d55]" aria-hidden="true" />
-            {SITE.status} · Free 20-minute call · No pitch deck needed
+            {SITE.status} · Free 15-minute call · No pitch deck needed
           </p>
         </div>
         <HeroPhone />
@@ -218,7 +218,7 @@ function Process() {
         </div>
         <ProcessSteps>
           <Button href="#contact" variant="ink" project="call">
-            Book a free 20-minute call
+            Book a free 15-minute call
           </Button>
         </ProcessSteps>
       </Container>

@@ -252,14 +252,14 @@ export function ProjectModal() {
         {step === "details" && (
           <form ref={formRef} onSubmit={submit} noValidate className="mt-6">
             <p className="text-[12px] font-bold tracking-[0.14em] text-accent uppercase">
-              {isCall && SITE.calLink ? "Free 20-minute call" : "Start a project"}
+              {isCall && SITE.calLink ? "Free 15-minute call" : "Start a project"}
             </p>
             <h2 id="project-title" className="mt-2 font-display text-[clamp(26px,4vw,34px)] leading-[1.05] font-semibold tracking-[-0.03em]">
               Tell me what you’re building.
             </h2>
             <p className="mt-2 text-[15px] leading-relaxed text-muted">
               {SITE.calLink
-                ? "A few details first, then you pick a time for a free 20-minute call. No pitch deck needed."
+                ? "A few details first, then you pick a time for a free 15-minute call. No pitch deck needed."
                 : "A few details and I’ll reply with how I’d build it. No pitch deck needed."}
             </p>
 
@@ -333,7 +333,7 @@ export function ProjectModal() {
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
                 <p className="text-[12px] font-bold tracking-[0.14em] text-accent uppercase">
-                  {SITE.calLink ? "Free 20-minute call" : "Last step"}
+                  {SITE.calLink ? "Free 15-minute call" : "Last step"}
                 </p>
                 <h2 id="project-title" className="mt-2 font-display text-[clamp(26px,4vw,34px)] leading-[1.05] font-semibold tracking-[-0.03em]">
                   {SITE.calLink ? "Pick a time that works for you." : "Send it my way."}
