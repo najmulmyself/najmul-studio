@@ -51,11 +51,14 @@ export function Button({
   children,
   variant = "accent",
   className = "",
+  project,
 }: {
   href: string;
   children: ReactNode;
   variant?: "accent" | "ink" | "glass";
   className?: string;
+  // Opens the "Start a project" modal instead (see ProjectModal).
+  project?: string;
 }) {
   const colors = {
     accent: "sheen bg-accent text-white hover:bg-accent-hover",
@@ -66,6 +69,7 @@ export function Button({
     <a
       href={href}
       {...linkProps(href)}
+      data-start-project={project}
       className={`inline-flex min-h-12 items-center gap-2 rounded-full px-6 font-semibold transition-[background-color,transform] duration-200 active:scale-[0.97] ${colors} ${className}`}
     >
       {children}

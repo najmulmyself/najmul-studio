@@ -1,5 +1,6 @@
 "use client";
 
+import { openProjectModal } from "@/components/project-modal";
 import { SITE } from "@/data/site";
 import { useEffect, useRef, useState } from "react";
 
@@ -14,7 +15,7 @@ const STARTERS = ["A booking app", "A habit tracker", "Automate a boring task"];
 const ONE_SENTENCE = 160;
 
 // A note from the iPhone Notes app where visitors write their idea, then
-// send it to me as a ready-made email.
+// carry it into the "Start a project" form.
 export function IdeaNote() {
   const [idea, setIdea] = useState("");
   const [example, setExample] = useState(0);
@@ -28,9 +29,6 @@ export function IdeaNote() {
   }, [idea]);
 
   const text = idea.trim();
-  const subject = `App idea: ${text.length > 60 ? `${text.slice(0, 57)}…` : text}`;
-  const body = `Hi ${SITE.shortName},\n\n${text}\n\nCan you tell me how you'd build it?\n`;
-  const mailto = `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
   const start = (s: string) => {
     setIdea(`${s} that `);
@@ -108,11 +106,10 @@ export function IdeaNote() {
           <p className="text-[13px] text-muted">
             Free build plan{SITE.replyTime ? `, back within ${SITE.replyTime}` : ""}. No strings.
           </p>
-          <a
-            href={text ? mailto : "#idea"}
-            onClick={(e) => {
-              if (text) return;
-              e.preventDefault();
+          <button
+            type="button"
+            onClick={() => {
+              if (text) return openProjectModal({ idea: text });
               setNudge(true);
               fieldRef.current?.focus();
             }}
@@ -124,10 +121,10 @@ export function IdeaNote() {
             <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M2.5 13.5 21 5l-6 16-3.5-6.5-9-1z" />
             </svg>
-          </a>
+          </button>
         </div>
       </div>
-      <p className="mt-4 text-center text-[13px] text-faint">It opens your email with the note already in it.</p>
+      <p className="mt-4 text-center text-[13px] text-faint">Next: a couple of details, then pick a time to talk.</p>
     </div>
   );
 }

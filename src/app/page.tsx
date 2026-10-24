@@ -4,6 +4,7 @@ import { FaqChat } from "@/components/faq-chat";
 import { IdeaNote } from "@/components/idea-note";
 import { HeroPhone } from "@/components/hero-phone";
 import { ProcessSteps } from "@/components/process-steps";
+import { ProjectModal } from "@/components/project-modal";
 import { RevealOnScroll } from "@/components/reveal";
 import { ServiceCards } from "@/components/services";
 import { StatWidgets } from "@/components/stat-widgets";
@@ -16,6 +17,7 @@ export default function Home() {
     <div className="relative overflow-x-clip">
       <Frame />
       <DynamicIsland />
+      <ProjectModal />
       <main>
         <Hero />
         <Stats />
@@ -71,7 +73,7 @@ function Hero() {
             your boring work.
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
-            <Button href="#contact">
+            <Button href="#contact" project="">
               Tell me your idea <ArrowUpRight />
             </Button>
             <TextLink href="#work">See my apps</TextLink>
@@ -177,7 +179,7 @@ function Work() {
         <AppShowcase />
         <p className="mt-12 text-center text-[17px] text-night-muted">
           Want your app on this list?{" "}
-          <a href="#contact" className="font-semibold text-white underline-offset-4 hover:underline">
+          <a href="#contact" data-start-project="" className="font-semibold text-white underline-offset-4 hover:underline">
             Let’s talk →
           </a>
         </p>
@@ -215,7 +217,7 @@ function Process() {
           <p className="mt-3 text-muted">Tap a step, or just sit back and watch.</p>
         </div>
         <ProcessSteps>
-          <Button href={SITE.bookingUrl || "#contact"} variant="ink">
+          <Button href="#contact" variant="ink" project="call">
             Book a free 20-minute call
           </Button>
         </ProcessSteps>
@@ -302,13 +304,14 @@ function Contact() {
             <path d="M101 50l9 9-12 3" />
           </svg>
           <a
-            href={`mailto:${SITE.email}`}
+            href="#contact"
+            data-start-project="call"
             className="inline-block -rotate-2 rounded-full border-2 border-ink bg-ink px-12 py-6 font-display text-[clamp(36px,5vw,60px)] leading-none font-semibold tracking-[-0.03em] text-white shadow-[8px_8px_0_#2747f0] transition-transform hover:-translate-y-1 hover:rotate-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
           >
             Let’s talk
           </a>
         </div>
-        <p className="mt-8 font-hand text-2xl text-muted">psst. it’s just an email to a real human.</p>
+        <p className="mt-8 font-hand text-2xl text-muted">psst. a few details, then a call with a real human.</p>
 
         <div className="glass mx-auto mt-16 flex max-w-[720px] flex-col items-center justify-between gap-4 rounded-full px-6 py-4 sm:flex-row max-sm:rounded-[28px]">
           <a
@@ -339,12 +342,6 @@ function Contact() {
         <p className="mt-5 text-sm text-muted">
           {SITE.location}
           {SITE.replyTime && ` · ${SITE.replyTime}`}
-          {SITE.bookingUrl && (
-            <>
-              {" · "}
-              <TextLink href={SITE.bookingUrl}>Book a call</TextLink>
-            </>
-          )}
         </p>
       </Container>
       <footer className="border-t border-line">

@@ -224,6 +224,36 @@ body {
     opacity 0.22s ease;
 }
 
+/* "Start a project" modal: a glass sheet that rises over a blurred page. */
+.project-modal {
+  transition: max-width 0.45s cubic-bezier(0.32, 1, 0.42, 1);
+}
+.project-modal[open] {
+  animation: modal-in 0.45s cubic-bezier(0.32, 1.2, 0.42, 1);
+}
+.project-modal::backdrop {
+  background: rgb(15 15 20 / 0.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.project-modal[open]::backdrop {
+  animation: fade-in 0.3s ease;
+}
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+html:has(.project-modal[open]) {
+  overflow: hidden;
+}
+
 /* FAQ answers slide open where the browser supports it. */
 details::details-content {
   height: 0;
@@ -380,7 +410,12 @@ summary::-webkit-details-marker {
   }
   .stage,
   .phone-home,
-  .phone-app {
+  .phone-app,
+  .project-modal {
     transition: none;
+  }
+  .project-modal[open],
+  .project-modal[open]::backdrop {
+    animation: none;
   }
 }

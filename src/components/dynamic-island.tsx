@@ -239,6 +239,7 @@ export function DynamicIsland() {
             <div className="p-2.5 pt-2">
               <a
                 href="#contact"
+                data-start-project=""
                 onClick={close}
                 style={{ transitionDelay: open ? "260ms" : "0ms" }}
                 className="island-item sheen flex min-h-12 items-center justify-between rounded-full bg-accent pr-2 pl-5 font-semibold text-white transition-[background-color,transform] hover:bg-accent-hover active:scale-[0.98]"

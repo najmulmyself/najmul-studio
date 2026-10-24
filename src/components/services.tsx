@@ -39,10 +39,11 @@ function Icon({ children, className = "size-5" }: { children: ReactNode; classNa
   );
 }
 
-function Pill({ href, children, className }: { href: string; children: ReactNode; className: string }) {
+function Pill({ project, children, className }: { project: string; children: ReactNode; className: string }) {
   return (
     <a
-      href={href}
+      href="#contact"
+      data-start-project={project}
       className={`inline-flex min-h-12 items-center gap-2 rounded-full px-6 font-semibold transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.97] ${className}`}
     >
       {children} <span aria-hidden="true">→</span>
@@ -114,7 +115,7 @@ function AppCard() {
 
       <p className="mt-6 max-w-lg leading-relaxed text-white/85">{s.body}</p>
       <div className="mt-6">
-        <Pill href="#contact" className="sheen bg-white text-accent">
+        <Pill project="app" className="sheen bg-white text-accent">
           {s.cta}
         </Pill>
       </div>
@@ -193,7 +194,7 @@ function AutomationCard() {
         {SITE.automationExample && ` ${SITE.automationExample}`}
       </p>
       <div className="mt-6">
-        <Pill href="#contact" className="sheen bg-ink text-[#ffd23f]">
+        <Pill project="automation" className="sheen bg-ink text-[#ffd23f]">
           {s.cta}
         </Pill>
       </div>
@@ -216,7 +217,7 @@ function TeamCard() {
         </h3>
         <p className="mt-4 max-w-md leading-relaxed text-ink/75">{s.body}</p>
         <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
-          <Pill href="#contact" className="sheen bg-[#5b3df5] text-white">
+          <Pill project="team" className="sheen bg-[#5b3df5] text-white">
             {s.cta}
           </Pill>
           <a

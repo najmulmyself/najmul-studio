@@ -35,7 +35,9 @@ export const SITE = {
   x: "https://x.com/najmulmyself",
 
   // Optional. Fill these in when you have them.
-  bookingUrl: "", // e.g. a Calendly link
+  // Your Cal.com event, the part after cal.com/ (e.g. "najmul/discovery-call").
+  // Until it's set, the project form ends by emailing the details instead.
+  calLink: "",
   replyTime: "", // e.g. "Usually replies within a day"
   quoteTime: "", // e.g. "3 days", used in "a fixed quote within …"
   startingPrice: "", // e.g. "$2,000"
@@ -134,6 +136,17 @@ export const APPS: AppCard[] = [
     store: "Google Play",
   },
 ];
+
+// Choices in the "Start a project" form. Edit freely.
+export const PROJECT_FORM = {
+  needs: [
+    { id: "app", label: "An iOS app" },
+    { id: "automation", label: "An AI automation" },
+    { id: "team", label: "An iOS dev for my team" },
+  ],
+  timelines: ["ASAP", "1–3 months", "3+ months", "Just exploring"],
+  budgets: ["Under $2k", "$2k–$5k", "$5k–$10k", "$10k+", "Not sure yet"],
+};
 
 export const STEPS = [
   {

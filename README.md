@@ -19,7 +19,8 @@ All copy and data live in `src/data/site.ts`. Optional fields hide the part of t
 
 | Field | Shows |
 |---|---|
-| `SITE.bookingUrl` | "Book a call" link (process step and contact) |
+| `SITE.calLink` | Your Cal.com event (e.g. `najmul/discovery-call`). Every hire / call button opens the project form, then this calendar with the details pre-filled. Empty: the form ends with a pre-filled email instead |
+| `PROJECT_FORM` | The "what do you need", timeline and budget choices in that form |
 | `SITE.replyTime` | Reply time under the contact buttons |
 | `SITE.quoteTime` | "a fixed quote within …" in the process |
 | `SITE.startingPrice` | Starting price in the cost FAQ |
