@@ -104,6 +104,29 @@ function summary(f: Fields) {
     .join("\n");
 }
 
+// Emails me the details as soon as someone continues, so a lead isn't lost
+// if they never book. Fire and forget: the visitor never waits on it.
+function sendLead(f: Fields) {
+  if (!SITE.web3formsKey) return;
+  const need = PROJECT_FORM.needs.find((n) => n.id === f.need)?.label;
+  fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      access_key: SITE.web3formsKey,
+      subject: `New project from ${f.name.trim()}${need ? `: ${need}` : ""}`,
+      from_name: "Portfolio project form",
+      name: f.name.trim(),
+      email: f.email.trim(),
+      replyto: f.email.trim(),
+      needs: need || "Not picked",
+      building: f.idea.trim(),
+      timeline: f.timeline || "Not picked",
+      budget: f.budget || "Not picked",
+    }),
+  }).catch(() => {});
+}
+
 export function ProjectModal() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [step, setStep] = useState<Step>("details");
@@ -111,6 +134,8 @@ export function ProjectModal() {
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({});
   const [isCall, setIsCall] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  // Going back to edit and continuing again only re-sends if something changed.
+  const lastSent = useRef("");
 
   const set = <K extends keyof Fields>(k: K, v: Fields[K]) => {
     setFields((f) => ({ ...f, [k]: v }));
@@ -186,6 +211,12 @@ export function ProjectModal() {
       formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
       return;
     }
+    const isBot = formRef.current?.querySelector<HTMLInputElement>('[name="botcheck"]')?.checked;
+    const snapshot = JSON.stringify(fields);
+    if (!isBot && snapshot !== lastSent.current) {
+      lastSent.current = snapshot;
+      sendLead(fields);
+    }
     setStep("book");
     dialogRef.current?.scrollTo({ top: 0 });
   };
@@ -251,6 +282,8 @@ export function ProjectModal() {
 
         {step === "details" && (
           <form ref={formRef} onSubmit={submit} noValidate className="mt-6">
+            {/* Honeypot: people never see it, spam bots tick it. */}
+            <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
             <p className="text-[12px] font-bold tracking-[0.14em] text-accent uppercase">
               {isCall && SITE.calLink ? "Free 15-minute call" : "Start a project"}
             </p>
