@@ -36,15 +36,20 @@ All copy and data live in `src/data/site.ts`. Optional fields hide the part of t
 - `main`: what is live.
 - `develop`: work in progress. Merged into `main` only when approved.
 
-## Chat bubble → Telegram
+## Chat bubble ↔ Telegram
 
-The chat bubble in the corner sends messages to your Telegram through `src/app/api/chat/route.ts`.
-It needs two environment variables in Vercel (Project → Settings → Environment Variables), then a redeploy:
+The chat bubble in the corner sends messages to your Telegram (`src/app/api/chat/route.ts`).
+Swipe-reply to one in Telegram and your answer appears in that visitor's chat on the site
+(`src/app/api/telegram/route.ts`). Set it up in Vercel, then redeploy:
 
-| Variable | What it is |
+| Setting | What it is |
 | --- | --- |
 | `TELEGRAM_BOT_TOKEN` | The token @BotFather gives you when you create a bot |
-| `TELEGRAM_CHAT_ID` | Your chat id with that bot (send the bot any message, then open `https://api.telegram.org/bot<TOKEN>/getUpdates` and copy `message.chat.id`) |
+| `TELEGRAM_CHAT_ID` | Your own Telegram user id (ask @userinfobot). Tap Start in your bot's chat once |
+| Upstash Redis | Vercel → Storage → Upstash for Redis (free). Connecting it to the project adds `KV_REST_API_URL` and `KV_REST_API_TOKEN` |
 
-Without them the bubble still works: visitors see "That didn't go through" with email (and WhatsApp, if set) as fallbacks.
-Never put the token in the code; it only lives in Vercel.
+After deploying, open `https://www.najmulmyself.com/api/telegram` once. It connects the bot to the site and says "Connected".
+
+- Without Upstash the chat still works one way: messages reach Telegram and you reply by email or WhatsApp.
+- Conversations expire after 30 days of quiet. Visitors see replies while the page is open or when they come back in the same browser.
+- Never put the token in the code; it only lives in Vercel.

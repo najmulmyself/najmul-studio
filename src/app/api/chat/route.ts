@@ -1,9 +1,10 @@
+import { hasStore, isConversationId, keys, redis, TTL, type ChatItem } from "@/lib/store";
+import { hasTelegram, say } from "@/lib/telegram";
 import { NextResponse } from "next/server";
 
-// Forwards a chat-bubble message to my Telegram. The bot token and chat id
-// live in Vercel environment variables, never in the browser.
-const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+// The chat bubble talks to this route. POST forwards a visitor's message to
+// my Telegram; GET lets their chat pick up my replies. Without a Redis store
+// the chat still works one way (messages reach me, replies go by email).
 
 const MAX_MESSAGE = 2000;
 const MAX_CONTACT = 120;
@@ -23,9 +24,9 @@ function tooMany(ip: string) {
 }
 
 export async function POST(req: Request) {
-  if (!TOKEN || !CHAT_ID) return NextResponse.json({ error: "not_configured" }, { status: 503 });
+  if (!hasTelegram) return NextResponse.json({ error: "not_configured" }, { status: 503 });
 
-  let body: { message?: unknown; contact?: unknown; website?: unknown; timezone?: unknown };
+  let body: Record<string, unknown>;
   try {
     body = await req.json();
   } catch {
@@ -38,6 +39,8 @@ export async function POST(req: Request) {
   const message = typeof body.message === "string" ? body.message.trim() : "";
   const contact = typeof body.contact === "string" ? body.contact.trim() : "";
   const timezone = typeof body.timezone === "string" ? body.timezone.slice(0, 60) : "";
+  const id = typeof body.id === "string" ? body.id.slice(0, 40) : crypto.randomUUID();
+  const cid = isConversationId(body.cid) ? body.cid : null;
   if (!message || message.length > MAX_MESSAGE || !contact || contact.length > MAX_CONTACT) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
   }
@@ -45,20 +48,56 @@ export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   if (tooMany(ip)) return NextResponse.json({ error: "rate_limited" }, { status: 429 });
 
-  const text = [
-    "New chat on najmulmyself.com",
-    `From: ${contact}`,
-    ...(timezone ? [`Time zone: ${timezone}`] : []),
-    "",
-    message,
-  ].join("\n");
+  const twoWay = hasStore && cid !== null;
+  let firstInChat = true;
+  if (twoWay) {
+    const [length] = await redis(["LLEN", keys.chat(cid)]).catch(() => [0]);
+    firstInChat = !length;
+  }
 
-  const res = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: CHAT_ID, text, disable_web_page_preview: true }),
-  }).catch(() => null);
+  const text = firstInChat
+    ? [
+        "New chat on najmulmyself.com",
+        `From: ${contact}`,
+        ...(timezone ? [`Time zone: ${timezone}`] : []),
+        "",
+        message,
+        ...(twoWay ? ["", "↩️ Swipe to reply and it shows up in their chat."] : []),
+      ].join("\n")
+    : `${contact} again:\n\n${message}`;
 
-  if (!res?.ok) return NextResponse.json({ error: "send_failed" }, { status: 502 });
-  return NextResponse.json({ ok: true });
+  const sent = await say(text);
+  if (!sent) return NextResponse.json({ error: "send_failed" }, { status: 502 });
+
+  if (twoWay) {
+    const item: ChatItem = { id, from: "visitor", text: message, at: Date.now() };
+    // Remember the conversation, and which conversation this Telegram message
+    // belongs to, so a reply to it can find its way back.
+    await redis(
+      ["RPUSH", keys.chat(cid), JSON.stringify(item)],
+      ["EXPIRE", keys.chat(cid), TTL],
+      ["SET", keys.telegram(sent.message_id), cid, "EX", TTL],
+    ).catch(() => null);
+  }
+
+  return NextResponse.json({ ok: true, twoWay });
+}
+
+export async function GET(req: Request) {
+  if (!hasStore) return NextResponse.json({ error: "no_store" }, { status: 503 });
+  const params = new URL(req.url).searchParams;
+  const cid = params.get("cid");
+  const after = Math.max(0, Number(params.get("after")) || 0);
+  if (!isConversationId(cid)) return NextResponse.json({ error: "invalid" }, { status: 400 });
+
+  const [items] = await redis(["LRANGE", keys.chat(cid), after, -1]).catch(() => [null]);
+  if (!Array.isArray(items)) return NextResponse.json({ error: "store_failed" }, { status: 502 });
+  const messages = items.flatMap((raw) => {
+    try {
+      return [JSON.parse(String(raw)) as ChatItem];
+    } catch {
+      return [];
+    }
+  });
+  return NextResponse.json({ messages, total: after + items.length }, { headers: { "Cache-Control": "no-store" } });
 }

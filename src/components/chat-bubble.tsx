@@ -2,30 +2,38 @@
 
 import { SITE } from "@/data/site";
 import Image from "next/image";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 
 const SHOW_LAUNCHER_MS = 6_000;
 const TEASER_MS = 120_000;
+// How often the chat checks for my replies: often while it's open, rarely while closed.
+const POLL_OPEN_MS = 4_000;
+const POLL_CLOSED_MS = 30_000;
 const TEASER_KEY = "chat-teaser-seen";
 const CONTACT_KEY = "chat-contact";
+const CHAT_ID_KEY = "chat-id";
 
 const STARTERS = ["How much would my app cost?", "Can you start this month?", "I need an automation"];
 
-type Msg = { id: number; from: "me" | "them"; text: string; status?: "sending" | "sent" | "failed" };
+type Msg = { id: string; from: "me" | "them"; text: string; status?: "sending" | "sent" | "failed" };
+type ServerItem = { id: string; from: "visitor" | "najmul"; text: string };
 
 // Browser storage can be blocked (private mode, previews), so every use is guarded.
-function load(key: string) {
+// The conversation id and contact are kept across visits; the teaser only per visit.
+function load(store: "local" | "session", key: string) {
   try {
-    return sessionStorage.getItem(key) ?? "";
+    return (store === "local" ? localStorage : sessionStorage).getItem(key) ?? "";
   } catch {
     return "";
   }
 }
-function save(key: string, value: string) {
+function save(store: "local" | "session", key: string, value: string) {
   try {
-    sessionStorage.setItem(key, value);
+    (store === "local" ? localStorage : sessionStorage).setItem(key, value);
   } catch {}
 }
+
+const randomId = () => crypto.randomUUID().replace(/-/g, "");
 
 function whatsappLink(text: string) {
   return `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text || `Hi ${SITE.shortName}! I found you on najmulmyself.com.`)}`;
@@ -45,8 +53,9 @@ function Avatar({ size }: { size: number }) {
   );
 }
 
-// A small chat in the corner. Messages go to my Telegram through /api/chat;
-// WhatsApp is offered as a second way to reach me when a number is set.
+// A small chat in the corner. Messages go to my Telegram through /api/chat,
+// and when I swipe-reply there, the reply shows up here (the chat checks for
+// replies while the visitor is on the page). WhatsApp is a second way in.
 export function ChatBubble() {
   const [launcher, setLauncher] = useState(false);
   const [teaser, setTeaser] = useState(false);
@@ -56,32 +65,88 @@ export function ChatBubble() {
   const [draft, setDraft] = useState("");
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [needContact, setNeedContact] = useState(false);
-  const nextId = useRef(1);
+  const [cid, setCid] = useState("");
+  // null until we know; false when the site has no reply store (one-way chat).
+  const [twoWay, setTwoWay] = useState<boolean | null>(null);
+  const [unread, setUnread] = useState(0);
+  const [preview, setPreview] = useState("");
+  const synced = useRef(0);
+  const openRef = useRef(false);
   const threadRef = useRef<HTMLDivElement>(null);
   const draftRef = useRef<HTMLTextAreaElement>(null);
   const contactRef = useRef<HTMLInputElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
 
+  const msgsRef = useRef<Msg[]>([]);
+
   useEffect(() => {
-    const saved = load(CONTACT_KEY);
-    if (saved) {
-      setContact(saved);
+    openRef.current = open;
+  }, [open]);
+  useEffect(() => {
+    msgsRef.current = msgs;
+  }, [msgs]);
+
+  useEffect(() => {
+    const savedContact = load("local", CONTACT_KEY);
+    if (savedContact) {
+      setContact(savedContact);
       setContactSaved(true);
     }
+    setCid(load("local", CHAT_ID_KEY));
     const a = setTimeout(() => setLauncher(true), SHOW_LAUNCHER_MS);
-    const b = load(TEASER_KEY) ? undefined : setTimeout(() => setTeaser(true), TEASER_MS);
+    const b = load("session", TEASER_KEY) ? undefined : setTimeout(() => setTeaser(true), TEASER_MS);
     return () => {
       clearTimeout(a);
       clearTimeout(b);
     };
   }, []);
 
+  // Picks up anything new in this conversation (my replies, or the history on a return visit).
+  const sync = useCallback(async () => {
+    if (!cid) return;
+    const res = await fetch(`/api/chat?cid=${cid}&after=${synced.current}`, { cache: "no-store" }).catch(() => null);
+    if (!res) return;
+    if (res.status === 503) return setTwoWay(false);
+    if (!res.ok) return;
+    setTwoWay(true);
+    const data = (await res.json()) as { messages: ServerItem[]; total: number };
+    synced.current = data.total;
+    if (!data.messages.length) return;
+    const known = new Set(msgsRef.current.map((m) => m.id));
+    const fresh = data.messages
+      .filter((m) => !known.has(m.id))
+      .map((m): Msg => ({ id: m.id, from: m.from === "najmul" ? "them" : "me", text: m.text, status: "sent" }));
+    if (!fresh.length) return;
+    // On a return visit the first sync is just history; after that, a reply
+    // that lands while the chat is closed gets a badge and a preview.
+    const replies = fresh.filter((m) => m.from === "them");
+    if (replies.length && !openRef.current && msgsRef.current.length) {
+      setUnread((n) => n + replies.length);
+      setPreview(replies[replies.length - 1].text);
+      setLauncher(true);
+    }
+    msgsRef.current = [...msgsRef.current, ...fresh];
+    setMsgs((all) => [...all, ...fresh.filter((m) => !all.some((x) => x.id === m.id))]);
+  }, [cid]);
+
+  // Load the history once, then keep checking while there's a conversation.
+  useEffect(() => {
+    if (!cid || twoWay === false) return;
+    sync();
+    const id = setInterval(() => {
+      if (document.visibilityState === "visible") sync();
+    }, open ? POLL_OPEN_MS : POLL_CLOSED_MS);
+    return () => clearInterval(id);
+  }, [cid, twoWay, open, sync]);
+
   // Once the visitor opens the chat or closes the teaser, don't nag again this visit.
   useEffect(() => {
     if (open) {
       setTeaser(false);
-      save(TEASER_KEY, "1");
+      setUnread(0);
+      setPreview("");
+      save("session", TEASER_KEY, "1");
       requestAnimationFrame(() => (contactSaved ? draftRef : contactRef).current?.focus());
     }
   }, [open, contactSaved]);
@@ -99,14 +164,9 @@ export function ChatBubble() {
 
   useEffect(() => {
     threadRef.current?.scrollTo({ top: threadRef.current.scrollHeight, behavior: "smooth" });
-  }, [msgs]);
+  }, [msgs, open]);
 
-  const push = (m: Omit<Msg, "id">) => {
-    const id = nextId.current++;
-    setMsgs((all) => [...all, { ...m, id }]);
-    return id;
-  };
-  const mark = (id: number, status: Msg["status"]) =>
+  const mark = (id: string, status: Msg["status"]) =>
     setMsgs((all) => all.map((m) => (m.id === id ? { ...m, status } : m)));
 
   const send = async (e?: FormEvent) => {
@@ -119,16 +179,24 @@ export function ChatBubble() {
       return;
     }
     const firstMessage = !msgs.some((m) => m.from === "me" && m.status === "sent");
+    const conversation = cid || randomId();
+    if (!cid) {
+      setCid(conversation);
+      save("local", CHAT_ID_KEY, conversation);
+    }
     setDraft("");
     setContactSaved(true);
-    save(CONTACT_KEY, contact.trim());
-    const id = push({ from: "me", text, status: "sending" });
+    save("local", CONTACT_KEY, contact.trim());
+    const id = randomId();
+    setMsgs((all) => [...all, { id, from: "me", text, status: "sending" }]);
 
     const website = panelRef.current?.querySelector<HTMLInputElement>('[name="website"]')?.value ?? "";
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        cid: conversation,
+        id,
         message: text,
         contact: contact.trim(),
         website,
@@ -136,13 +204,15 @@ export function ChatBubble() {
       }),
     }).catch(() => null);
 
-    if (res?.ok) {
-      mark(id, "sent");
-      if (firstMessage) {
-        setTimeout(() => push({ from: "them", text: `Got it! I’ll reply to ${contact.trim()} soon.` }), 700);
-      }
-    } else {
-      mark(id, "failed");
+    if (!res?.ok) return mark(id, "failed");
+    mark(id, "sent");
+    const data = (await res.json().catch(() => ({}))) as { twoWay?: boolean };
+    setTwoWay(Boolean(data.twoWay));
+    if (firstMessage) {
+      const reply = data.twoWay
+        ? `Got it! If I’m around I’ll answer right here, otherwise I’ll reply to ${contact.trim()}.`
+        : `Got it! I’ll reply to ${contact.trim()} soon.`;
+      setTimeout(() => setMsgs((all) => [...all, { id: `auto-${id}`, from: "them", text: reply }]), 700);
     }
   };
 
@@ -334,7 +404,21 @@ export function ChatBubble() {
         </div>
       )}
 
-      {teaser && !open && (
+      {preview && !open && (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="chat-teaser flex max-w-[280px] items-start gap-2.5 rounded-[20px] rounded-br-md border border-white/80 bg-white/[0.97] p-3 text-left text-[14px] leading-snug shadow-[0_18px_40px_-18px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+        >
+          <Avatar size={28} />
+          <span className="min-w-0">
+            <span className="block font-semibold">{SITE.shortName} replied</span>
+            <span className="line-clamp-2 text-ink-soft">{preview}</span>
+          </span>
+        </button>
+      )}
+
+      {teaser && !open && !preview && (
         <div className="chat-teaser relative flex max-w-[260px] items-start gap-2 rounded-[20px] rounded-br-md border border-white/80 bg-white/[0.97] py-3 pr-9 pl-3.5 text-[14px] leading-snug shadow-[0_18px_40px_-18px_rgba(0,0,0,0.35)] backdrop-blur-xl">
           <button type="button" onClick={() => setOpen(true)} className="text-left">
             <span className="block font-semibold">Got a question?</span>
@@ -344,7 +428,7 @@ export function ChatBubble() {
             type="button"
             onClick={() => {
               setTeaser(false);
-              save(TEASER_KEY, "1");
+              save("session", TEASER_KEY, "1");
             }}
             aria-label="Dismiss"
             className="absolute top-2 right-2 flex size-6 items-center justify-center rounded-full text-faint transition-colors hover:bg-black/5 hover:text-ink"
@@ -361,7 +445,7 @@ export function ChatBubble() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        aria-label={open ? "Close chat" : `Chat with ${SITE.shortName}`}
+        aria-label={open ? "Close chat" : unread ? `Chat with ${SITE.shortName}, ${unread} new` : `Chat with ${SITE.shortName}`}
         className={`chat-launcher relative flex size-15 items-center justify-center rounded-full border-2 border-white bg-accent shadow-[0_16px_36px_-12px_rgba(39,71,240,0.7)] transition-[opacity,transform] duration-500 hover:scale-105 active:scale-95 ${
           launcher || open ? "opacity-100" : "pointer-events-none translate-y-4 scale-75 opacity-0"
         }`}
@@ -374,6 +458,11 @@ export function ChatBubble() {
           <>
             <Avatar size={56} />
             <span className="absolute right-0 bottom-0 size-4 rounded-full border-[3px] border-white bg-[#34c759]" aria-hidden="true" />
+            {unread > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full border-2 border-white bg-[#ff3b30] px-1 text-[11px] font-bold text-white">
+                {unread}
+              </span>
+            )}
           </>
         )}
       </button>
