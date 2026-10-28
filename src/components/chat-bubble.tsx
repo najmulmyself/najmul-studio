@@ -64,7 +64,6 @@ export function ChatBubble() {
   const [contactSaved, setContactSaved] = useState(false);
   const [draft, setDraft] = useState("");
   const [msgs, setMsgs] = useState<Msg[]>([]);
-  const [needContact, setNeedContact] = useState(false);
   const [cid, setCid] = useState("");
   // null until we know; false when the site has no reply store (one-way chat).
   const [twoWay, setTwoWay] = useState<boolean | null>(null);
@@ -147,9 +146,9 @@ export function ChatBubble() {
       setUnread(0);
       setPreview("");
       save("session", TEASER_KEY, "1");
-      requestAnimationFrame(() => (contactSaved ? draftRef : contactRef).current?.focus());
+      requestAnimationFrame(() => draftRef.current?.focus());
     }
-  }, [open, contactSaved]);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -173,11 +172,8 @@ export function ChatBubble() {
     e?.preventDefault();
     const text = draft.trim();
     if (!text) return;
-    if (!contact.trim()) {
-      setNeedContact(true);
-      contactRef.current?.focus();
-      return;
-    }
+    // A contact is optional: without one, the reply can only reach them here.
+    const replyTo = contact.trim();
     const firstMessage = !msgs.some((m) => m.from === "me" && m.status === "sent");
     const conversation = cid || randomId();
     if (!cid) {
@@ -185,8 +181,10 @@ export function ChatBubble() {
       save("local", CHAT_ID_KEY, conversation);
     }
     setDraft("");
-    setContactSaved(true);
-    save("local", CONTACT_KEY, contact.trim());
+    if (replyTo) {
+      setContactSaved(true);
+      save("local", CONTACT_KEY, replyTo);
+    }
     const id = randomId();
     setMsgs((all) => [...all, { id, from: "me", text, status: "sending" }]);
 
@@ -198,7 +196,7 @@ export function ChatBubble() {
         cid: conversation,
         id,
         message: text,
-        contact: contact.trim(),
+        contact: replyTo,
         website,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       }),
@@ -209,9 +207,13 @@ export function ChatBubble() {
     const data = (await res.json().catch(() => ({}))) as { twoWay?: boolean };
     setTwoWay(Boolean(data.twoWay));
     if (firstMessage) {
-      const reply = data.twoWay
-        ? `Got it! If I’m around I’ll answer right here, otherwise I’ll reply to ${contact.trim()}.`
-        : `Got it! I’ll reply to ${contact.trim()} soon.`;
+      const reply = replyTo
+        ? data.twoWay
+          ? `Got it! If I’m around I’ll answer right here, otherwise I’ll reply to ${replyTo}.`
+          : `Got it! I’ll reply to ${replyTo} soon.`
+        : data.twoWay
+          ? "Got it! I’ll answer right here. If you might leave, add your email or WhatsApp above so my reply still finds you."
+          : "Got it! Add your email or WhatsApp above so I can get back to you.";
       setTimeout(() => setMsgs((all) => [...all, { id: `auto-${id}`, from: "them", text: reply }]), 700);
     }
   };
@@ -325,16 +327,13 @@ export function ChatBubble() {
             {!contactSaved ? (
               <div className="mb-2">
                 <label htmlFor="chat-contact" className="sr-only">
-                  Your email or WhatsApp, so I can reply
+                  Your email or WhatsApp (optional), so I can reply if you leave
                 </label>
                 <input
                   id="chat-contact"
                   ref={contactRef}
                   value={contact}
-                  onChange={(e) => {
-                    setContact(e.target.value);
-                    setNeedContact(false);
-                  }}
+                  onChange={(e) => setContact(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
@@ -342,11 +341,10 @@ export function ChatBubble() {
                     }
                   }}
                   autoComplete="email"
-                  placeholder="Your email or WhatsApp, so I can reply"
-                  aria-invalid={needContact}
-                  className="block w-full rounded-2xl border border-black/10 bg-white px-3.5 py-2.5 text-[15px] placeholder:text-faint focus-visible:border-accent focus-visible:outline-none aria-[invalid=true]:border-[#d93025]"
+                  placeholder="Email or WhatsApp (optional)"
+                  className="block w-full rounded-2xl border border-black/10 bg-white px-3.5 py-2.5 text-[15px] placeholder:text-faint focus-visible:border-accent focus-visible:outline-none"
                 />
-                {needContact && <p className="mt-1 px-1 text-[12px] font-medium text-[#d93025]">Where should I reply? Add an email or WhatsApp.</p>}
+                <p className="mt-1 px-1 text-[11.5px] text-faint">So my reply still finds you if you leave the page.</p>
               </div>
             ) : (
               <p className="mb-2 px-1 text-[12px] text-muted">

@@ -41,7 +41,8 @@ export async function POST(req: Request) {
   const timezone = typeof body.timezone === "string" ? body.timezone.slice(0, 60) : "";
   const id = typeof body.id === "string" ? body.id.slice(0, 40) : crypto.randomUUID();
   const cid = isConversationId(body.cid) ? body.cid : null;
-  if (!message || message.length > MAX_MESSAGE || !contact || contact.length > MAX_CONTACT) {
+  // The contact is optional; without it I can only answer in the site chat.
+  if (!message || message.length > MAX_MESSAGE || contact.length > MAX_CONTACT) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
   }
 
@@ -58,13 +59,13 @@ export async function POST(req: Request) {
   const text = firstInChat
     ? [
         "New chat on najmulmyself.com",
-        `From: ${contact}`,
+        `From: ${contact || (twoWay ? "no contact left (reply here, they see it while on the site)" : "no contact left")}`,
         ...(timezone ? [`Time zone: ${timezone}`] : []),
         "",
         message,
         ...(twoWay ? ["", "↩️ Swipe to reply and it shows up in their chat."] : []),
       ].join("\n")
-    : `${contact} again:\n\n${message}`;
+    : `${contact || "Visitor"} again:\n\n${message}`;
 
   const sent = await say(text);
   if (!sent) return NextResponse.json({ error: "send_failed" }, { status: 502 });
