@@ -1,4 +1,5 @@
 import { SITE } from "@/data/site";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Caveat, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
@@ -62,6 +63,8 @@ export default function RootLayout({
       </head>
       <body className={`${display.variable} ${body.variable} ${hand.variable} font-sans antialiased`}>
         {children}
+        {/* Cookie-free visitor counts, shown in the Vercel dashboard. */}
+        <Analytics />
       </body>
     </html>
   );
