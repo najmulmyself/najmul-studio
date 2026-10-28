@@ -19,6 +19,8 @@ const hand = Caveat({
   variable: "--font-hand",
   subsets: ["latin"],
   weight: ["500", "700"],
+  // Only used far down the page, so it shouldn't compete with the headline font.
+  preload: false,
 });
 
 const title = "Najmul Huda: indie iOS developer & AI automation";

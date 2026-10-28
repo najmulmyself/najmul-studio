@@ -180,7 +180,6 @@ export function DynamicIsland() {
           type="button"
           aria-expanded={open}
           aria-controls="island-panel"
-          aria-label={open ? "Close menu" : "Open menu"}
           onClick={() => setOpen((v) => !v)}
           className="flex w-full items-center gap-2.5 rounded-[26px] p-[6px] pr-4 text-left"
         >
@@ -189,6 +188,8 @@ export function DynamicIsland() {
             <span className="block font-display text-[17px] leading-tight font-bold tracking-tight whitespace-nowrap">
               {open ? SITE.name : "najmul"}
               <span className="text-accent">.</span>
+              {/* Spoken after the visible name, so the button reads "najmul. Open menu". */}
+              <span className="sr-only"> {open ? "Close menu" : "Open menu"}</span>
             </span>
             {open && (
               <span className={`block text-[12.5px] ${s.muted}`}>
@@ -247,7 +248,7 @@ export function DynamicIsland() {
                 <span className="flex items-center gap-2">
                   <span className="size-2 rounded-full bg-[#34c759] shadow-[0_0_8px_#34c759]" aria-hidden="true" />
                   Hire me
-                  <span className="font-normal text-white/75">· {SITE.status.toLowerCase()}</span>
+                  <span className="font-normal text-white/85">· {SITE.status.toLowerCase()}</span>
                 </span>
                 <span aria-hidden="true" className="flex size-8 items-center justify-center rounded-full bg-white/20">
                   <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">

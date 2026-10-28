@@ -122,7 +122,7 @@ export function StatWidgets() {
     <div ref={ref} className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
       {/* Downloads */}
       <Widget reduced={reduced} label="100k+ downloads on one solo app" className="bg-accent text-white">
-        <div className="flex items-center justify-between text-[13px] font-semibold text-white/75">
+        <div className="flex items-center justify-between text-[13px] font-semibold text-white/85">
           <span>Downloads</span>
           <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M7 17 17 7M8 7h9v9" />
@@ -147,14 +147,14 @@ export function StatWidgets() {
           />
           <circle cx="118" cy="4" r="4.5" fill="#fff" className={seen || reduced ? "opacity-100" : "opacity-0"} />
         </svg>
-        <p className="mt-2 text-[12.5px] text-white/75">Dream Kit 25 · built solo</p>
+        <p className="mt-2 text-[12.5px] text-white/85">Dream Kit 25 · built solo</p>
       </Widget>
 
       {/* Years */}
       <Widget reduced={reduced} label="3+ years shipping apps to the stores" className="glass text-ink">
         <span className="text-[13px] font-semibold text-muted">Shipping since 2022</span>
         <p aria-hidden="true" className="mt-1 font-display text-[clamp(34px,4vw,48px)] leading-none font-semibold tracking-[-0.04em] tabular-nums">
-          {years}+ <span className="text-[0.55em] text-faint">yrs</span>
+          {years}+ <span className="text-[0.55em] text-muted">yrs</span>
         </p>
         <ol className="mt-auto grid grid-cols-5 gap-1.5" aria-hidden="true">
           {yearMarks.map((y, i) => (

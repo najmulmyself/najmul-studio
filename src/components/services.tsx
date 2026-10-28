@@ -65,7 +65,7 @@ function AppCard() {
   const s = SERVICES[0];
   return (
     <article className="flex flex-col overflow-hidden rounded-[32px] bg-accent p-7 text-white md:col-span-7 md:p-9">
-      <p className="font-display text-sm font-semibold text-white/70">01 · iOS apps</p>
+      <p className="font-display text-sm font-semibold text-white/85">01 · iOS apps</p>
       <h3 className="mt-3 max-w-md font-display text-[clamp(28px,3vw,36px)] leading-[1.05] font-semibold tracking-[-0.03em]">
         {s.title}
       </h3>
@@ -84,7 +84,7 @@ function AppCard() {
                 >
                   <Icon>{stop.icon}</Icon>
                 </span>
-                <span className={`text-[12px] leading-tight sm:text-[13px] ${last ? "font-semibold" : "text-white/75"}`}>
+                <span className={`text-[12px] leading-tight sm:text-[13px] ${last ? "font-semibold" : "text-white/85"}`}>
                   {stop.label}
                 </span>
               </li>
@@ -96,7 +96,7 @@ function AppCard() {
       <div className="mt-8 flex items-end gap-5 rounded-3xl bg-white/10 p-5">
         <div className="shrink-0">
           <p className="font-display text-[44px] leading-none font-semibold tracking-[-0.03em]">100k+</p>
-          <p className="mt-1 text-sm text-white/75">downloads, one solo app</p>
+          <p className="mt-1 text-sm text-white/85">downloads, one solo app</p>
         </div>
         <div aria-hidden="true" className="flex h-20 flex-1 items-end gap-1.5">
           {BARS.map((h, i) => (

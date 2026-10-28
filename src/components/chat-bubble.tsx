@@ -4,7 +4,8 @@ import { SITE } from "@/data/site";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 
-const SHOW_LAUNCHER_MS = 6_000;
+// Counted from when the bubble loads (about 2s after the page), so it appears around 6s in.
+const SHOW_LAUNCHER_MS = 4_000;
 const TEASER_MS = 120_000;
 // How often the chat checks for my replies: often while it's open, rarely while closed.
 const POLL_OPEN_MS = 4_000;

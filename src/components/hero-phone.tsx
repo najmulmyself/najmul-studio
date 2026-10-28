@@ -69,7 +69,7 @@ export function HeroPhone() {
               </div>
             </div>
 
-            <div className={`relative m-3 flex items-center justify-between rounded-full py-2 pr-2 pl-4 text-[13px] text-white/50 ${glassBubble}`}>
+            <div className={`relative m-3 flex items-center justify-between rounded-full py-2 pr-2 pl-4 text-[13px] text-white/75 ${glassBubble}`}>
               Message
               <span className="flex size-7 items-center justify-center rounded-full bg-accent text-white">
                 <svg viewBox="0 0 24 24" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

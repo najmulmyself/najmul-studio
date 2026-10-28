@@ -27,11 +27,11 @@ function ChatStage() {
       <Pop i={2} className="max-w-[80%] self-end rounded-[20px] rounded-br-md bg-white px-4 py-2.5 font-medium text-accent">
         Love it. Tell me everything.
       </Pop>
-      <Pop i={3} className="self-end text-[11px] font-semibold text-white/60">
+      <Pop i={3} className="self-end text-[11px] font-semibold text-white/85">
         Read just now
       </Pop>
       <Pop i={4} className="self-start rounded-[20px] rounded-bl-md bg-white/20 px-4 py-3.5">
-        <span className="flex gap-1" aria-label="Typing">
+        <span className="flex gap-1" role="img" aria-label="Typing">
           <span className="typing-dot size-1.5 rounded-full bg-white" />
           <span className="typing-dot size-1.5 rounded-full bg-white [animation-delay:0.15s]" />
           <span className="typing-dot size-1.5 rounded-full bg-white [animation-delay:0.3s]" />

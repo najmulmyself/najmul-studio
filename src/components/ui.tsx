@@ -31,7 +31,7 @@ export function TwoTone({
 }) {
   return (
     <Tag className={`font-display leading-[1.02] tracking-[-0.035em] ${className}`}>
-      <span className="font-normal text-faint">{quiet}</span>
+      <span className="font-normal text-quiet">{quiet}</span>
       <br />
       <span className="font-semibold text-ink">{loud}</span>
     </Tag>

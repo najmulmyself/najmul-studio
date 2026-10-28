@@ -1,5 +1,5 @@
 import { AppShowcase } from "@/components/app-showcase";
-import { ChatBubble } from "@/components/chat-bubble";
+import { LazyChatBubble } from "@/components/lazy-chat-bubble";
 import { DynamicIsland } from "@/components/dynamic-island";
 import { IdeaNote } from "@/components/idea-note";
 import { HeroPhone } from "@/components/hero-phone";
@@ -18,7 +18,7 @@ export default function Home() {
       <Frame />
       <DynamicIsland />
       <ProjectModal />
-      <ChatBubble />
+      <LazyChatBubble />
       <main>
         <Hero />
         <Stats />
@@ -62,11 +62,11 @@ function Hero() {
             Indie iOS development <span className="mx-1.5 text-faint">·</span> AI automation
           </Eyebrow>
           <h1 className="mt-6 font-display text-[clamp(44px,6vw,72px)] leading-[0.98] tracking-[-0.045em]">
-            <span className="font-normal text-faint">You bring the</span>{" "}
+            <span className="font-normal text-quiet">You bring the</span>{" "}
             <span className="font-semibold">idea.</span>{" "}
-            <span className="font-normal text-faint">I’ll</span>{" "}
+            <span className="font-normal text-quiet">I’ll</span>{" "}
             <span className="font-semibold">ship&nbsp;it</span>{" "}
-            <span className="font-normal text-faint">to the</span>{" "}
+            <span className="font-normal text-quiet">to the</span>{" "}
             <span className="font-semibold">App&nbsp;Store.</span>
           </h1>
           <p className="mt-7 text-[19px] leading-relaxed text-pretty text-ink-soft">
@@ -121,7 +121,7 @@ function About() {
                 alt={SITE.name}
                 width={380}
                 height={460}
-                sizes="(min-width: 768px) 380px, 100vw"
+                sizes="(min-width: 768px) 380px, calc(100vw - 48px)"
                 className="aspect-[38/46] w-full border-2 border-ink object-cover object-top shadow-[10px_10px_0_#1a1a1a]"
               />
             </div>
@@ -195,7 +195,7 @@ function Hook() {
       <Container className="reveal py-24 text-center md:py-32">
         <p className="mx-auto max-w-[820px] text-balance font-display text-[clamp(30px,4.2vw,50px)] leading-[1.08] font-semibold tracking-[-0.035em]">
           Your app idea has been sitting in your Notes app since 2023.{" "}
-          <span className="font-normal text-faint">Let’s get it out.</span>
+          <span className="font-normal text-quiet">Let’s get it out.</span>
         </p>
         <p className="mt-5 text-[18px] text-ink-soft">
           Tell me about it in one sentence. I’ll tell you how I’d build it, for free.
