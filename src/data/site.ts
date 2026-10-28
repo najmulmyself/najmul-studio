@@ -43,6 +43,9 @@ export const SITE = {
   // Web3Forms access key: every project form is emailed to you, booked or not.
   // It's meant to be public. Empty turns this off.
   web3formsKey: "03a773a5-08bf-4f52-b9f3-aec7ae7b7c68",
+  // Your WhatsApp number in international format, digits only (e.g. "8801XXXXXXXXX").
+  // Shows "or chat on WhatsApp" in the chat bubble. Empty hides it.
+  whatsapp: "",
   replyTime: "", // e.g. "Usually replies within a day"
   quoteTime: "", // e.g. "3 days", used in "a fixed quote within …"
   startingPrice: "", // e.g. "$2,000"

@@ -1,4 +1,5 @@
 import { AppShowcase } from "@/components/app-showcase";
+import { ChatBubble } from "@/components/chat-bubble";
 import { DynamicIsland } from "@/components/dynamic-island";
 import { FaqChat } from "@/components/faq-chat";
 import { IdeaNote } from "@/components/idea-note";
@@ -18,6 +19,7 @@ export default function Home() {
       <Frame />
       <DynamicIsland />
       <ProjectModal />
+      <ChatBubble />
       <main>
         <Hero />
         <Stats />
