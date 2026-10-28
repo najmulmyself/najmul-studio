@@ -1,3 +1,4 @@
+import { SITE } from "@/data/site";
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Caveat, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
@@ -24,10 +25,25 @@ const description =
   "You bring the idea, I'll ship it to the App Store. Indie iOS developer and AI automation builder from Dhaka, taking freelance and contract work.";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE.url),
   title,
   description,
-  openGraph: { title, description, type: "website", locale: "en_US" },
-  twitter: { card: "summary", title, description },
+  alternates: { canonical: "/" },
+  openGraph: { title, description, url: "/", siteName: SITE.name, type: "website", locale: "en_US" },
+  twitter: { card: "summary_large_image", title, description, creator: "@najmulmyself" },
+};
+
+// Tells search engines who the site is about.
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: SITE.name,
+  url: SITE.url,
+  image: new URL(SITE.photo, SITE.url).toString(),
+  jobTitle: "Indie iOS developer & AI automation builder",
+  email: `mailto:${SITE.email}`,
+  address: { "@type": "PostalAddress", addressLocality: "Dhaka", addressCountry: "BD" },
+  sameAs: [SITE.github, SITE.linkedin, SITE.x],
 };
 
 export default function RootLayout({
@@ -42,6 +58,7 @@ export default function RootLayout({
           // Marks the page as JS-enabled before paint, so scroll reveals don't flash.
           dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }}
         />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
       </head>
       <body className={`${display.variable} ${body.variable} ${hand.variable} font-sans antialiased`}>
         {children}

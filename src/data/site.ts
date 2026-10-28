@@ -26,6 +26,8 @@ export const SITE = {
   name: "Najmul Huda",
   shortName: "Najmul",
   email: "najmul.myself@gmail.com",
+  // The live address. Used for link previews, the sitemap and search engines.
+  url: "https://www.najmulmyself.com",
   status: "Taking new projects",
   location: "Dhaka, GMT+6",
   resume: "/Najmul_Huda_Resume.pdf",

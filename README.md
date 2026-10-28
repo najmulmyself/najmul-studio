@@ -19,6 +19,7 @@ All copy and data live in `src/data/site.ts`. Optional fields hide the part of t
 
 | Field | Shows |
 |---|---|
+| `SITE.url` | The live address (www.najmulmyself.com). Used for link previews, the sitemap and search engines |
 | `SITE.calLink` | Your Cal.com event (e.g. `najmul/discovery-call`). Every hire / call button opens the project form, then this calendar with the details pre-filled. Empty: the form ends with a pre-filled email instead |
 | `SITE.web3formsKey` | Web3Forms access key. Each project form is emailed to you when the visitor continues, even if they never book. Empty turns it off |
 | `PROJECT_FORM` | The "what do you need", timeline and budget choices in that form |
