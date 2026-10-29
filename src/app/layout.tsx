@@ -1,4 +1,5 @@
 import { SITE } from "@/data/site";
+import { SiteAnalytics } from "@/components/site-analytics";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Caveat, Hanken_Grotesk } from "next/font/google";
@@ -67,6 +68,7 @@ export default function RootLayout({
         {children}
         {/* Cookie-free visitor counts, shown in the Vercel dashboard. */}
         <Analytics />
+        <SiteAnalytics />
       </body>
     </html>
   );

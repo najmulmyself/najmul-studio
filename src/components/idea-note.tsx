@@ -109,7 +109,7 @@ export function IdeaNote() {
           <button
             type="button"
             onClick={() => {
-              if (text) return openProjectModal({ idea: text });
+              if (text) return openProjectModal({ idea: text, source: "Notes card" });
               setNudge(true);
               fieldRef.current?.focus();
             }}

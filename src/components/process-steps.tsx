@@ -1,6 +1,7 @@
 "use client";
 
 import { STEPS } from "@/data/site";
+import { track } from "@/lib/analytics";
 import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from "react";
 
 // Each step gets its own stage color, like the service cards.
@@ -135,6 +136,7 @@ export function ProcessSteps({ children }: { children?: ReactNode }) {
   }, []);
 
   const pick = (i: number) => {
+    track(`Process step: ${STEPS[i].title}`);
     setAuto(false);
     setActive(i);
   };

@@ -2,6 +2,7 @@
 
 import { ArrowUpRight } from "@/components/ui";
 import { APPS, type AppCard } from "@/data/site";
+import { track } from "@/lib/analytics";
 import Image from "next/image";
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 
@@ -229,6 +230,7 @@ export function AppShowcase() {
   // Like iOS: close the current app to the home screen, then launch the next one.
   const launch = (i: number) => {
     touched.current = true;
+    track(`App opened: ${APPS[i].name}`);
     clearTimeout(switchTimer.current);
     if (open && i === active) return;
     if (!open) {
@@ -420,6 +422,7 @@ export function AppShowcase() {
           <div className="pop mt-7 flex flex-wrap items-center gap-4 [--d:420ms]">
             <a
               href={app.href}
+              data-track={`Store link: ${app.name}`}
               target="_blank"
               rel="noopener noreferrer"
               className="sheen inline-flex min-h-12 items-center gap-2 rounded-full px-6 font-semibold transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.97]"

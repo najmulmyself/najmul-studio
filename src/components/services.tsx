@@ -222,6 +222,7 @@ function TeamCard() {
           </Pill>
           <a
             href={SITE.resume}
+            data-track="Résumé opened"
             target="_blank"
             rel="noopener noreferrer"
             className="font-semibold text-[#5b3df5] underline-offset-4 hover:underline"

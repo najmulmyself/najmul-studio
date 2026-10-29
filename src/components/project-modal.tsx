@@ -1,6 +1,7 @@
 "use client";
 
 import { PROJECT_FORM, SITE } from "@/data/site";
+import { tag, track } from "@/lib/analytics";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 
@@ -9,7 +10,7 @@ const CalEmbed = dynamic(() => import("@calcom/embed-react"), { ssr: false });
 const CAL_NAMESPACE = "discovery";
 
 const OPEN_EVENT = "start-project";
-type OpenDetail = { need?: string; idea?: string; call?: boolean };
+type OpenDetail = { need?: string; idea?: string; call?: boolean; source?: string };
 
 // Opens the "Start a project" modal from anywhere. Links can do the same
 // with a data-start-project attribute (its value preselects what they need).
@@ -143,6 +144,8 @@ export function ProjectModal() {
   };
 
   const open = useCallback((detail: OpenDetail) => {
+    track("Hire form opened");
+    if (detail.source) tag("hire_source", detail.source);
     setIsCall(!!detail.call);
     setFields((f) => ({
       ...f,
@@ -169,7 +172,8 @@ export function ProjectModal() {
       if (!trigger) return;
       e.preventDefault();
       const value = trigger.dataset.startProject ?? "";
-      open(value === "call" ? { call: true } : { need: value || undefined });
+      const source = trigger.textContent?.trim() || trigger.getAttribute("aria-label") || "button";
+      open(value === "call" ? { call: true, source } : { need: value || undefined, source });
     };
     window.addEventListener(OPEN_EVENT, onOpen);
     document.addEventListener("click", onClick);
@@ -192,7 +196,13 @@ export function ProjectModal() {
         layout: "month_view",
         cssVarsPerTheme: { light: { "cal-brand": "#2747f0" }, dark: { "cal-brand": "#2747f0" } },
       });
-      cal("on", { action: "bookingSuccessfulV2", callback: () => setStep("done") });
+      cal("on", {
+        action: "bookingSuccessfulV2",
+        callback: () => {
+          track("Call booked");
+          setStep("done");
+        },
+      });
     });
     return () => {
       cancelled = true;
@@ -216,6 +226,7 @@ export function ProjectModal() {
     if (!isBot && snapshot !== lastSent.current) {
       lastSent.current = snapshot;
       sendLead(fields);
+      track("Hire form sent");
     }
     setStep("book");
     dialogRef.current?.scrollTo({ top: 0 });
@@ -230,6 +241,8 @@ export function ProjectModal() {
   return (
     <dialog
       ref={dialogRef}
+      // Recordings show clicks here but hide what people type about their project.
+      data-clarity-mask="true"
       tabIndex={-1}
       aria-labelledby="project-title"
       onClick={(e) => e.target === dialogRef.current && close()}

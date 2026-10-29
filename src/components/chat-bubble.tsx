@@ -1,6 +1,7 @@
 "use client";
 
 import { SITE } from "@/data/site";
+import { track } from "@/lib/analytics";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 
@@ -147,6 +148,7 @@ export function ChatBubble() {
       setUnread(0);
       setPreview("");
       save("session", TEASER_KEY, "1");
+      track("Chat opened");
       requestAnimationFrame(() => draftRef.current?.focus());
     }
   }, [open]);
@@ -204,6 +206,7 @@ export function ChatBubble() {
     }).catch(() => null);
 
     if (!res?.ok) return mark(id, "failed");
+    track("Chat message sent");
     mark(id, "sent");
     const data = (await res.json().catch(() => ({}))) as { twoWay?: boolean };
     setTwoWay(Boolean(data.twoWay));
@@ -229,6 +232,7 @@ export function ChatBubble() {
       {open && (
         <div
           ref={panelRef}
+          data-clarity-mask="true"
           role="dialog"
           aria-label={`Chat with ${SITE.shortName}`}
           className="chat-panel flex h-[min(540px,calc(100dvh-110px))] w-[min(380px,calc(100vw-32px))] flex-col overflow-hidden rounded-[28px] border border-white/80 bg-white/[0.97] text-ink shadow-[0_30px_80px_-24px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,1)] backdrop-blur-2xl backdrop-saturate-[1.8]"
@@ -389,6 +393,7 @@ export function ChatBubble() {
             {SITE.whatsapp && (
               <a
                 href={whatsappLink(draft.trim())}
+                data-track="WhatsApp clicked"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2 flex items-center justify-center gap-1.5 text-[12.5px] font-semibold text-[#1f9d55] hover:underline"

@@ -11,6 +11,7 @@ import { StatWidgets } from "@/components/stat-widgets";
 import { ArrowUpRight, Button, Container, Eyebrow, SocialIcons, TextLink, TwoTone } from "@/components/ui";
 import { FAQ, SITE, TESTIMONIALS } from "@/data/site";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -336,6 +337,7 @@ function Contact() {
         <div className="glass mx-auto mt-16 flex max-w-[720px] flex-col items-center justify-between gap-4 rounded-full px-6 py-4 sm:flex-row max-sm:rounded-[28px]">
           <a
             href={`mailto:${SITE.email}`}
+            data-track="Email clicked"
             className="flex min-w-0 items-center gap-3 text-[17px] font-medium hover:text-accent"
           >
             <svg viewBox="0 0 24 24" className="size-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -349,6 +351,7 @@ function Contact() {
               <a
                 key={s.name}
                 href={s.href}
+                data-track={`Social: ${s.name}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.name}
@@ -369,6 +372,9 @@ function Contact() {
           <span>
             © {new Date().getFullYear()} {SITE.name}
           </span>
+          <Link href="/privacy" className="hover:text-ink">
+            Privacy
+          </Link>
         </Container>
       </footer>
     </Section>

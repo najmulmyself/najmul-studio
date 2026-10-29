@@ -23,6 +23,7 @@ All copy and data live in `src/data/site.ts`. Optional fields hide the part of t
 | `SITE.calLink` | Your Cal.com event (e.g. `najmul/discovery-call`). Every hire / call button opens the project form, then this calendar with the details pre-filled. Empty: the form ends with a pre-filled email instead |
 | `SITE.web3formsKey` | Web3Forms access key. Each project form is emailed to you when the visitor continues, even if they never book. Empty turns it off |
 | `SITE.whatsapp` | Your WhatsApp number, digits only with country code (e.g. `8801XXXXXXXXX`). Shows "or chat on WhatsApp" in the chat bubble. Empty hides it |
+| `SITE.clarityId` | Microsoft Clarity project id: recordings, heatmaps and click events (filter recordings by events like "Hire form opened", "Call booked", "App opened: …"). EU/UK/Swiss visitors see a consent banner first. Empty turns it off |
 | `PROJECT_FORM` | The "what do you need", timeline and budget choices in that form |
 | `SITE.replyTime` | Reply time under the contact buttons |
 | `SITE.quoteTime` | "a fixed quote within …" in the process |
