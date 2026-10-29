@@ -41,7 +41,7 @@ export const SITE = {
   // Until it's set, the project form ends by emailing the details instead.
   calLink: "najmulmyself/15min",
   // Microsoft Clarity project id (recordings, heatmaps, click tracking). Empty turns it off.
-  clarityId: "",
+  clarityId: "z4qfcjlglt",
   // Web3Forms access key: every project form is emailed to you, booked or not.
   // It's meant to be public. Empty turns this off.
   web3formsKey: "03a773a5-08bf-4f52-b9f3-aec7ae7b7c68",
