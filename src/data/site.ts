@@ -31,7 +31,9 @@ export const SITE = {
   status: "Taking new projects",
   location: "Dhaka, GMT+6",
   resume: "/Najmul_Huda_Resume.pdf",
-  photo: "/me.jpg",
+  photo: "/najmul-huda.jpg",
+  // Square crop of the same photo, for the small round avatars.
+  headshot: "/najmul-huda-headshot.jpg",
   github: "https://github.com/najmulmyself",
   linkedin: "https://www.linkedin.com/in/najmulmyself/",
   x: "https://x.com/najmulmyself",

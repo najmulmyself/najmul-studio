@@ -38,11 +38,11 @@ export function HeroPhone() {
 
             <div className="relative flex items-center gap-2.5 border-b border-white/10 bg-white/5 px-4 pt-12 pb-3 backdrop-blur-xl">
               <Image
-                src={SITE.photo}
+                src={SITE.headshot}
                 alt=""
                 width={36}
                 height={36}
-                className="size-9 rounded-full object-cover object-top ring-1 ring-white/20"
+                className="size-9 rounded-full object-cover ring-1 ring-white/20"
               />
               <div className="min-w-0">
                 <p className="text-[14px] leading-tight font-semibold">{SITE.name}</p>

@@ -301,7 +301,7 @@ function Contact() {
       <Container className="reveal relative py-24 text-center md:py-32">
         <div aria-hidden="true" className="absolute top-1/2 left-1/2 -z-10 h-72 w-[min(640px,90vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/15 blur-3xl" />
         <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white py-1 pr-3.5 pl-1 text-sm font-semibold shadow-sm">
-          <Image src={SITE.photo} alt="" width={28} height={28} className="size-7 rounded-full object-cover object-top" />
+          <Image src={SITE.headshot} alt="" width={28} height={28} className="size-7 rounded-full object-cover" />
           {SITE.shortName}
         </span>
         <p className="mt-6 -rotate-2 font-hand text-[clamp(30px,4vw,44px)] leading-tight text-ink-soft">
