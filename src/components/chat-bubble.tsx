@@ -44,12 +44,11 @@ function whatsappLink(text: string) {
 function Avatar({ size }: { size: number }) {
   return (
     <Image
-      src="/avatar-pixel.png"
+      src={SITE.headshot}
       alt=""
       width={size}
       height={size}
-      unoptimized
-      className="shrink-0 rounded-full [image-rendering:pixelated]"
+      className="shrink-0 rounded-full object-cover"
       style={{ width: size, height: size }}
     />
   );

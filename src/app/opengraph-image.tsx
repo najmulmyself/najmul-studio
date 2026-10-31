@@ -21,7 +21,7 @@ async function displayFont() {
 }
 
 export default async function OpengraphImage() {
-  const [font, avatar] = await Promise.all([displayFont(), readFile(join(process.cwd(), "public/avatar-pixel.png"))]);
+  const [font, avatar] = await Promise.all([displayFont(), readFile(join(process.cwd(), "public", SITE.headshot))]);
   const domain = new URL(SITE.url).hostname.replace(/^www\./, "");
 
   return new ImageResponse(
@@ -55,7 +55,7 @@ export default async function OpengraphImage() {
 
         <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
           <img
-            src={`data:image/png;base64,${avatar.toString("base64")}`}
+            src={`data:image/jpeg;base64,${avatar.toString("base64")}`}
             width={112}
             height={112}
             style={{ borderRadius: 9999, border: "5px solid #fff", boxShadow: "0 12px 30px rgba(0,0,0,0.18)" }}

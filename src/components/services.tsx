@@ -252,12 +252,11 @@ function TeamCard() {
             +
           </span>
           <Image
-            src="/avatar-pixel.png"
+            src={SITE.headshot}
             alt=""
             width={64}
             height={64}
-            unoptimized
-            className="size-16 rounded-full border-[3px] border-[#5b3df5] [image-rendering:pixelated]"
+            className="size-16 rounded-full border-[3px] border-[#5b3df5] object-cover"
           />
         </div>
         <figcaption className="mt-3 text-center text-sm text-ink/60">

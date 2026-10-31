@@ -94,23 +94,22 @@ function useDhakaTime() {
   return time;
 }
 
-function PixelAvatar({ size }: { size: number }) {
+function ProfileAvatar({ size }: { size: number }) {
   return (
     <Image
-      src="/avatar-pixel.png"
+      src={SITE.headshot}
       alt=""
       width={size}
       height={size}
-      unoptimized
       priority
-      className="shrink-0 rounded-full ring-2 ring-white/25 [image-rendering:pixelated]"
+      className="shrink-0 rounded-full object-cover ring-2 ring-white/25"
       style={{ width: size, height: size }}
     />
   );
 }
 
 // The site header, shaped like the iPhone's Dynamic Island: a small pill with
-// a pixel avatar and my name that springs open on tap into the site menu.
+// my photo and name that springs open on tap into the site menu.
 export function DynamicIsland() {
   const [open, setOpen] = useState(false);
   const [variant, setVariant] = useState<Variant>(DEFAULT_VARIANT);
@@ -183,7 +182,7 @@ export function DynamicIsland() {
           onClick={() => setOpen((v) => !v)}
           className="flex w-full items-center gap-2.5 rounded-[26px] p-[6px] pr-4 text-left"
         >
-          <PixelAvatar size={open ? 44 : 34} />
+          <ProfileAvatar size={open ? 44 : 34} />
           <span className="min-w-0 flex-1">
             <span className="block font-display text-[17px] leading-tight font-bold tracking-tight whitespace-nowrap">
               {open ? SITE.name : "najmul"}
