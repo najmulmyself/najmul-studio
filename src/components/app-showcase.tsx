@@ -348,6 +348,18 @@ export function AppShowcase() {
             >
               Open on {app.store} <ArrowUpRight />
             </a>
+            {app.alsoOn && (
+              <a
+                href={app.alsoOn.href}
+                data-track={`Store link: ${app.name} (${app.alsoOn.store})`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-12 items-center gap-2 rounded-full border px-6 font-semibold transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.97]"
+                style={{ borderColor: app.color, color: app.color }}
+              >
+                {app.alsoOn.store} <ArrowUpRight />
+              </a>
+            )}
             <button
               type="button"
               onClick={() => launch((active + 1) % APPS.length)}

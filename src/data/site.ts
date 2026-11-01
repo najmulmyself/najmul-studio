@@ -15,6 +15,8 @@ export type AppCard = {
   stats: [Stat, Stat, Stat];
   href: string;
   store: string;
+  // A second store listing, e.g. the App Store version of an Android app.
+  alsoOn?: { store: string; href: string };
   // Optional app icon in /public. Without one, a tile with initials is shown.
   icon?: string;
   // Optional real screenshots (in /public, status bar cropped off) shown on the
@@ -154,7 +156,7 @@ export const APPS: AppCard[] = [
     name: "Stayverz",
     tagline: "Short-term rentals across Bangladesh: guests book homes, hosts list a place in ten steps.",
     stack: "Flutter • Provider • Payments",
-    platforms: ["Android"],
+    platforms: ["iOS", "Android"],
     tags: ["Travel"],
     color: "#F05926",
     onColor: "#ffffff",
@@ -165,6 +167,7 @@ export const APPS: AppCard[] = [
     ],
     href: "https://play.google.com/store/apps/details?id=com.stayverz.stayverz",
     store: "Google Play",
+    alsoOn: { store: "App Store", href: "https://apps.apple.com/us/app/stayverz-seamless-experience/id6748875178" },
     icon: "/icons/stayverz.webp",
     screens: [
       { src: "/screens/stayverz-listings.webp", alt: "Stayverz listings: apartments with nightly prices in Bangladesh", bg: "#ffffff" },
