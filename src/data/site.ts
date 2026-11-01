@@ -18,7 +18,8 @@ export type AppCard = {
   icon?: string;
   // Optional real screenshots (in /public, status bar cropped off) shown on the
   // phone mockup in place of the drawn screen. They rotate, and a tap skips ahead.
-  screens?: { src: string; alt: string }[];
+  // bg fills any gap around the shot (match the app's background).
+  screens?: { src: string; alt: string; bg?: string }[];
 };
 
 export type Stat = { value: string; label: string };
@@ -127,7 +128,7 @@ export const APPS: AppCard[] = [
   },
   {
     name: "Skill Finesse",
-    tagline: "A learning app with reminders that keep students coming back.",
+    tagline: "An e-learning app for Bangladesh: courses, quizzes and live classes from top local instructors.",
     stack: "Flutter • Provider • SQFLite",
     platforms: ["iOS", "Android"],
     tags: ["Education"],
@@ -135,12 +136,18 @@ export const APPS: AppCard[] = [
     onColor: "#150B33",
     stats: [
       { value: "2", label: "App stores" },
-      { value: "Modular", label: "Architecture" },
-      { value: "Push", label: "Reminders" },
+      { value: "Since 2024", label: "Live and updated" },
+      { value: "Courses", label: "Quizzes, live classes" },
     ],
     href: "https://apps.apple.com/us/app/skill-finesse/id6477940594",
     store: "App Store",
     icon: "/icons/skill-finesse.webp",
+    screens: [
+      { src: "/screens/skill-finesse-home.webp", alt: "Skill Finesse home: course search, quiz examination and new courses", bg: "#f2f3f8" },
+      { src: "/screens/skill-finesse-courses.webp", alt: "Skill Finesse courses: all, studying and wishlist", bg: "#f2f3f8" },
+      { src: "/screens/skill-finesse-account.webp", alt: "Skill Finesse account: personal information and support", bg: "#f2f3f8" },
+      { src: "/screens/skill-finesse-future.webp", alt: "Skill Finesse: the future of e-learning in Bangladesh", bg: "#000000" },
+    ],
   },
   {
     name: "Stayverz",

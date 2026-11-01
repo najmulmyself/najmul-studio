@@ -60,46 +60,6 @@ function GoldScreen() {
   );
 }
 
-function SkillScreen() {
-  const skillFinesse = APPS.find((a) => a.name === "Skill Finesse");
-  const lessons = [
-    ["Intro to Design", 100],
-    ["Colors that work", 70],
-    ["Type on screens", 30],
-  ] as const;
-  return (
-    <div className="relative flex h-full flex-col bg-[#120d22] px-4 pt-14 pb-6 text-white">
-      <div className="pop absolute inset-x-2.5 top-10 z-10 flex gap-2.5 rounded-[18px] border border-white/15 bg-white/15 p-2.5 backdrop-blur-xl [--d:700ms]">
-        {skillFinesse ? (
-          <AppIcon app={skillFinesse} className="size-8 rounded-[9px] text-[10px]" />
-        ) : (
-          <span className="size-8 shrink-0 rounded-[9px] bg-[#A78BFA]" />
-        )}
-        <span className="min-w-0 text-[11px] leading-snug">
-          <span className="block font-semibold">Skill Finesse</span>
-          <span className="block text-white/70">10 minutes today keeps the streak alive.</span>
-        </span>
-      </div>
-      <p className="mt-14 font-display text-[22px] leading-tight font-semibold">Keep going</p>
-      <p className="text-[11px] text-[#A78BFA]">5-day streak</p>
-      <div className="mt-4 space-y-2">
-        {lessons.map(([t, p]) => (
-          <div key={t} className="rounded-2xl bg-white/[0.06] px-3.5 py-3">
-            <div className="flex justify-between text-[12px]">
-              <span className="font-semibold">{t}</span>
-              <span className="text-white/50">{p}%</span>
-            </div>
-            <div className="mt-2 h-1.5 rounded-full bg-white/10">
-              <div className="h-full rounded-full bg-[#A78BFA]" style={{ width: `${p}%` }} />
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="mt-auto rounded-full bg-[#A78BFA] py-2.5 text-center text-[13px] font-bold text-[#150B33]">Continue lesson</div>
-    </div>
-  );
-}
-
 function StayScreen() {
   return (
     <div className="flex h-full flex-col bg-[#1a0d10] text-white">
@@ -154,7 +114,8 @@ function ScreenshotScreen({ app }: { app: AppCard }) {
       type="button"
       onClick={() => setI((n) => (n + 1) % screens.length)}
       aria-label={`${app.name} screenshot ${i + 1} of ${screens.length}. Show the next one`}
-      className="relative block h-full w-full bg-[#030617]"
+      className="relative block h-full w-full transition-colors duration-500"
+      style={{ background: screens[i]?.bg ?? "#030617" }}
     >
       {screens.map((shot, n) => (
         <Image
@@ -167,7 +128,7 @@ function ScreenshotScreen({ app }: { app: AppCard }) {
           className={`absolute inset-x-0 top-10 mx-auto h-[calc(100%-40px)] w-auto transition-opacity duration-500 ${n === i ? "opacity-100" : "opacity-0"}`}
         />
       ))}
-      <span aria-hidden="true" className="absolute inset-x-0 bottom-7 flex justify-center gap-1.5">
+      <span aria-hidden="true" className="absolute inset-x-0 bottom-7 flex justify-center gap-1.5 mix-blend-difference">
         {screens.map((shot, n) => (
           <span key={shot.src} className={`h-1.5 rounded-full bg-white transition-all ${n === i ? "w-4 opacity-90" : "w-1.5 opacity-40"}`} />
         ))}
@@ -188,7 +149,6 @@ function GenericScreen({ app }: { app: AppCard }) {
 
 const SCREENS: Record<string, () => ReactNode> = {
   "Gold Kinen": GoldScreen,
-  "Skill Finesse": SkillScreen,
   Stayverz: StayScreen,
 };
 
@@ -349,7 +309,7 @@ export function AppShowcase() {
               </div>
 
               {/* Island and status bar */}
-              <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between px-7 pt-[18px] text-[12px] font-semibold">
+              <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between px-7 pt-[18px] text-[12px] font-semibold mix-blend-difference">
                 <span>9:41</span>
                 <span className="flex items-center gap-1">
                   <svg viewBox="0 0 18 12" className="h-2.5 w-4" fill="currentColor">
