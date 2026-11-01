@@ -71,7 +71,7 @@ function Hero() {
             <span className="font-semibold">App&nbsp;Store.</span>
           </h1>
           <p className="mt-7 text-[19px] leading-relaxed text-pretty text-ink-soft">
-            I build iOS apps people actually download (one passed 100k) and AI automations that do
+            I build iOS apps people actually download (one passed 500K) and AI automations that do
             your boring work.
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
@@ -137,8 +137,8 @@ function About() {
             </p>
             <p>
               For 3+ years I’ve taken apps from first commit to the App Store and Play Store: a fintech
-              app at Gold Kinen, a government VAT system, and Dream Kit 25, a side project I built alone
-              that crossed 100k downloads.
+              app at Gold Kinen, a government VAT system, and DLS Pro (it started as Dream Kit 25), a side
+              project I built alone that crossed 500K downloads.
             </p>
             <p className="font-semibold text-ink">Now I’m going all-in on native iOS.</p>
             <p>

@@ -112,7 +112,7 @@ const SPARK = "M2 52 L18 49 L32 46 L46 40 L60 37 L74 28 L88 22 L102 13 L118 4";
 export function StatWidgets() {
   const reduced = usePrefersReducedMotion();
   const { ref, seen } = useSeen<HTMLDivElement>();
-  const downloads = useCountUp(100, seen, reduced);
+  const downloads = useCountUp(500, seen, reduced);
   const years = useCountUp(3, seen, reduced, 900);
   const coverage = useCountUp(80, seen, reduced);
   const yearMarks = ["2022", "2023", "2024", "2025", "Now"];
@@ -121,7 +121,7 @@ export function StatWidgets() {
   return (
     <div ref={ref} className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
       {/* Downloads */}
-      <Widget reduced={reduced} label="100k+ downloads on one solo app" className="bg-accent text-white">
+      <Widget reduced={reduced} label="500K+ downloads on one solo app" className="bg-accent text-white">
         <div className="flex items-center justify-between text-[13px] font-semibold text-white/85">
           <span>Downloads</span>
           <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -129,7 +129,7 @@ export function StatWidgets() {
           </svg>
         </div>
         <p aria-hidden="true" className="mt-1 font-display text-[clamp(34px,4vw,48px)] leading-none font-semibold tracking-[-0.04em] tabular-nums">
-          {downloads}k+
+          {downloads}K+
         </p>
         <svg viewBox="0 0 120 56" className="mt-auto w-full overflow-visible" aria-hidden="true">
           <path d={`${SPARK} L118 56 L2 56 Z`} fill="rgba(255,255,255,0.14)" />
@@ -147,7 +147,7 @@ export function StatWidgets() {
           />
           <circle cx="118" cy="4" r="4.5" fill="#fff" className={seen || reduced ? "opacity-100" : "opacity-0"} />
         </svg>
-        <p className="mt-2 text-[12.5px] text-white/85">Dream Kit 25 · built solo</p>
+        <p className="mt-2 text-[12.5px] text-white/85">DLS Pro · built solo</p>
       </Widget>
 
       {/* Years */}

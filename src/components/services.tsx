@@ -95,7 +95,7 @@ function AppCard() {
 
       <div className="mt-8 flex items-end gap-5 rounded-3xl bg-white/10 p-5">
         <div className="shrink-0">
-          <p className="font-display text-[44px] leading-none font-semibold tracking-[-0.03em]">100k+</p>
+          <p className="font-display text-[44px] leading-none font-semibold tracking-[-0.03em]">500K+</p>
           <p className="mt-1 text-sm text-white/85">downloads, one solo app</p>
         </div>
         <div aria-hidden="true" className="flex h-20 flex-1 items-end gap-1.5">

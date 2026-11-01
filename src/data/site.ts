@@ -58,7 +58,7 @@ export const SITE = {
 };
 
 export const STATS: Stat[] = [
-  { value: "100k+", label: "downloads on one solo app" },
+  { value: "500K+", label: "downloads on one solo app" },
   { value: "3+ yrs", label: "shipping to the stores" },
   { value: "80%+", label: "test coverage on payment code" },
   { value: "1 dev", label: "no meetings about meetings" },
@@ -67,7 +67,7 @@ export const STATS: Stat[] = [
 export const SERVICES = [
   {
     title: "An iOS app people actually download",
-    body: "From napkin sketch to App Store: design, build, release and crash monitoring. One I built solo passed 100k downloads.",
+    body: "From napkin sketch to App Store: design, build, release and crash monitoring. One I built solo passed 500K downloads.",
     cta: "Start an app",
   },
   {
@@ -84,20 +84,22 @@ export const SERVICES = [
 
 export const APPS: AppCard[] = [
   {
-    name: "Dream Kit 25",
-    tagline: "A kit app for football gamers. Built, monetized and launched solo.",
+    name: "DLS Pro",
+    tagline:
+      "An all-in-one Dream League Soccer companion: kits, player stats, squad builder and upgrade simulator. Built, monetized and launched solo.",
     stack: "Flutter • Provider • AdMob",
     platforms: ["Android"],
-    tags: ["Indie", "Gaming"],
+    tags: ["Indie", "Sports"],
     color: "#3DDC84",
     onColor: "#0B1A10",
     stats: [
-      { value: "100k+", label: "Downloads" },
-      { value: "$120/mo", label: "Ad revenue" },
+      { value: "500K+", label: "Downloads" },
+      { value: "4.1★", label: "2.3K reviews" },
       { value: "Solo", label: "Built & shipped" },
     ],
     href: "https://play.google.com/store/apps/details?id=com.sakib.dreamkit",
     store: "Google Play",
+    icon: "/icons/dls-pro.webp",
   },
   {
     name: "Gold Kinen",

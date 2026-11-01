@@ -50,9 +50,9 @@ function DreamKitScreen() {
   ];
   return (
     <div className="flex h-full flex-col bg-[#0d1711] px-4 pt-14 pb-6 text-white">
-      <p className="text-[11px] font-semibold text-[#3DDC84]">Season 25</p>
+      <p className="text-[11px] font-semibold text-[#3DDC84]">DLS Pro</p>
       <p className="font-display text-[22px] leading-tight font-semibold">Pick your kit</p>
-      <div className="mt-3 rounded-full bg-white/10 px-3 py-2 text-[11px] text-white/50">Search 2,000+ kits…</div>
+      <div className="mt-3 rounded-full bg-white/10 px-3 py-2 text-[11px] text-white/50">Search kits & players…</div>
       <div className="mt-4 grid grid-cols-3 gap-2">
         {kits.map(([c, s], i) => (
           <div key={i} className="rounded-2xl bg-white/[0.06] p-2.5">
@@ -189,7 +189,7 @@ function GenericScreen({ app }: { app: AppCard }) {
 }
 
 const SCREENS: Record<string, () => ReactNode> = {
-  "Dream Kit 25": DreamKitScreen,
+  "DLS Pro": DreamKitScreen,
   "Gold Kinen": GoldScreen,
   "Skill Finesse": SkillScreen,
   Stayverz: StayScreen,
