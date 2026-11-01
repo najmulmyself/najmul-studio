@@ -16,6 +16,9 @@ export type AppCard = {
   store: string;
   // Optional app icon in /public. Without one, a tile with initials is shown.
   icon?: string;
+  // Optional real screenshots (in /public, status bar cropped off) shown on the
+  // phone mockup in place of the drawn screen. They rotate, and a tap skips ahead.
+  screens?: { src: string; alt: string }[];
 };
 
 export type Stat = { value: string; label: string };
@@ -100,6 +103,11 @@ export const APPS: AppCard[] = [
     href: "https://play.google.com/store/apps/details?id=com.sakib.dreamkit",
     store: "Google Play",
     icon: "/icons/dls-pro.webp",
+    screens: [
+      { src: "/screens/dls-pro-home.webp", alt: "DLS Pro home: player database, season pass and new players" },
+      { src: "/screens/dls-pro-tools.webp", alt: "DLS Pro tools: squad builder, compare, card creator, upgrade simulator" },
+      { src: "/screens/dls-pro-kits.webp", alt: "DLS Pro kits: World Cup and La Liga kit collections" },
+    ],
   },
   {
     name: "Gold Kinen",

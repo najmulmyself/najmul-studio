@@ -29,46 +29,6 @@ function AppIcon({ app, className = "size-14 rounded-[16px] text-lg" }: { app: A
 
 /* ---------- Mock screens: a quick sketch of each app, drawn in code ---------- */
 
-function Shirt({ color, stripe }: { color: string; stripe?: string }) {
-  return (
-    <svg viewBox="0 0 40 36" className="w-full" aria-hidden="true">
-      <path d="M13 2h14l11 7-5 8-4-2v19H11V15l-4 2-5-8z" fill={color} />
-      {stripe && <path d="M18 2h4v32h-4z" fill={stripe} />}
-      <path d="M16 2a4 4 0 0 0 8 0" fill="none" stroke="rgba(0,0,0,0.25)" strokeWidth="1.5" />
-    </svg>
-  );
-}
-
-function DreamKitScreen() {
-  const kits: [string, string?][] = [
-    ["#e11d48", "#fff"],
-    ["#f8fafc", "#0f172a"],
-    ["#2563eb"],
-    ["#facc15", "#15803d"],
-    ["#111827", "#3DDC84"],
-    ["#7c3aed", "#fde047"],
-  ];
-  return (
-    <div className="flex h-full flex-col bg-[#0d1711] px-4 pt-14 pb-6 text-white">
-      <p className="text-[11px] font-semibold text-[#3DDC84]">DLS Pro</p>
-      <p className="font-display text-[22px] leading-tight font-semibold">Pick your kit</p>
-      <div className="mt-3 rounded-full bg-white/10 px-3 py-2 text-[11px] text-white/50">Search kits & players…</div>
-      <div className="mt-4 grid grid-cols-3 gap-2">
-        {kits.map(([c, s], i) => (
-          <div key={i} className="rounded-2xl bg-white/[0.06] p-2.5">
-            <Shirt color={c} stripe={s} />
-          </div>
-        ))}
-      </div>
-      <div className="mt-4 rounded-full bg-[#3DDC84] py-2.5 text-center text-[13px] font-bold text-[#0B1A10]">Download kit</div>
-      <div className="mt-auto flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[10px] text-white/50">
-        <span className="rounded bg-[#facc15] px-1 font-bold text-black">Ad</span>
-        This little banner pays for my coffee.
-      </div>
-    </div>
-  );
-}
-
 function GoldScreen() {
   return (
     <div className="flex h-full flex-col bg-[#15120a] px-4 pt-14 pb-6 text-white">
@@ -178,6 +138,44 @@ function StayScreen() {
   );
 }
 
+const SCREEN_MS = 3500;
+
+// Real app screenshots, crossfading on a timer; a tap shows the next one.
+function ScreenshotScreen({ app }: { app: AppCard }) {
+  const screens = app.screens ?? [];
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    if (screens.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(() => setI((n) => (n + 1) % screens.length), SCREEN_MS);
+    return () => clearInterval(id);
+  }, [screens.length, i]);
+  return (
+    <button
+      type="button"
+      onClick={() => setI((n) => (n + 1) % screens.length)}
+      aria-label={`${app.name} screenshot ${i + 1} of ${screens.length}. Show the next one`}
+      className="relative block h-full w-full bg-[#030617]"
+    >
+      {screens.map((shot, n) => (
+        <Image
+          key={shot.src}
+          src={shot.src}
+          alt={shot.alt}
+          width={540}
+          height={1118}
+          sizes="270px"
+          className={`absolute inset-x-0 top-10 mx-auto h-[calc(100%-40px)] w-auto transition-opacity duration-500 ${n === i ? "opacity-100" : "opacity-0"}`}
+        />
+      ))}
+      <span aria-hidden="true" className="absolute inset-x-0 bottom-7 flex justify-center gap-1.5">
+        {screens.map((shot, n) => (
+          <span key={shot.src} className={`h-1.5 rounded-full bg-white transition-all ${n === i ? "w-4 opacity-90" : "w-1.5 opacity-40"}`} />
+        ))}
+      </span>
+    </button>
+  );
+}
+
 function GenericScreen({ app }: { app: AppCard }) {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-3 bg-[#0c0c0f] px-6 text-center text-white">
@@ -189,7 +187,6 @@ function GenericScreen({ app }: { app: AppCard }) {
 }
 
 const SCREENS: Record<string, () => ReactNode> = {
-  "DLS Pro": DreamKitScreen,
   "Gold Kinen": GoldScreen,
   "Skill Finesse": SkillScreen,
   Stayverz: StayScreen,
@@ -348,7 +345,7 @@ export function AppShowcase() {
                 style={{ transformOrigin: origin }}
                 aria-hidden={!open}
               >
-                {Screen ? <Screen /> : <GenericScreen app={app} />}
+                {app.screens?.length ? <ScreenshotScreen key={app.name} app={app} /> : Screen ? <Screen /> : <GenericScreen app={app} />}
               </div>
 
               {/* Island and status bar */}
