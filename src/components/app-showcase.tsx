@@ -60,44 +60,6 @@ function GoldScreen() {
   );
 }
 
-function StayScreen() {
-  return (
-    <div className="flex h-full flex-col bg-[#1a0d10] text-white">
-      <div className="relative h-[210px] shrink-0 overflow-hidden bg-gradient-to-b from-[#ffb199] to-[#FB7185]">
-        <svg viewBox="0 0 200 120" className="absolute bottom-0 w-full" aria-hidden="true">
-          <circle cx="150" cy="42" r="16" fill="#fff4d6" />
-          <path d="M20 120V60h50v60zM80 120V35h60v85zM150 120V70h40v50z" fill="#2A0710" opacity="0.85" />
-          <path d="M90 45h8v8h-8zM106 45h8v8h-8zM122 45h8v8h-8zM90 62h8v8h-8zM106 62h8v8h-8zM122 62h8v8h-8zM90 79h8v8h-8zM122 79h8v8h-8zM30 70h8v8h-8zM50 70h8v8h-8zM30 88h8v8h-8z" fill="#ffd27a" />
-        </svg>
-      </div>
-      <div className="flex flex-1 flex-col px-4 pt-4 pb-6">
-        <p className="font-display text-[20px] leading-tight font-semibold">Seaside Suite</p>
-        <p className="mt-1 flex items-center gap-1.5 text-[11px] text-[#86efac]">
-          <span className="size-1.5 rounded-full bg-[#34c759]" /> 2 rooms left tonight
-        </p>
-        <div className="mt-3 grid grid-cols-2 gap-2 text-[11px]">
-          <div className="rounded-xl bg-white/[0.06] px-3 py-2">
-            <span className="block text-white/50">Check in</span>
-            <span className="font-semibold">Fri</span>
-          </div>
-          <div className="rounded-xl bg-white/[0.06] px-3 py-2">
-            <span className="block text-white/50">Check out</span>
-            <span className="font-semibold">Sun</span>
-          </div>
-        </div>
-        <p className="mt-auto mb-2 flex items-center justify-center gap-1.5 text-[10px] text-white/50">
-          <svg viewBox="0 0 24 24" className="size-3" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true">
-            <rect x="5" y="11" width="14" height="10" rx="2" />
-            <path d="M8 11V8a4 4 0 0 1 8 0v3" />
-          </svg>
-          Secure payment
-        </p>
-        <div className="rounded-full bg-[#FB7185] py-2.5 text-center text-[13px] font-bold text-[#2A0710]">Book now</div>
-      </div>
-    </div>
-  );
-}
-
 const SCREEN_MS = 3500;
 
 // Real app screenshots, crossfading on a timer; a tap shows the next one.
@@ -149,7 +111,6 @@ function GenericScreen({ app }: { app: AppCard }) {
 
 const SCREENS: Record<string, () => ReactNode> = {
   "Gold Kinen": GoldScreen,
-  Stayverz: StayScreen,
 };
 
 /* ---------- The showcase ---------- */

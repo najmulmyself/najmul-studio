@@ -145,25 +145,31 @@ export const APPS: AppCard[] = [
     screens: [
       { src: "/screens/skill-finesse-home.webp", alt: "Skill Finesse home: course search, quiz examination and new courses", bg: "#f2f3f8" },
       { src: "/screens/skill-finesse-courses.webp", alt: "Skill Finesse courses: all, studying and wishlist", bg: "#f2f3f8" },
-      { src: "/screens/skill-finesse-account.webp", alt: "Skill Finesse account: personal information and support", bg: "#f2f3f8" },
+      { src: "/screens/skill-finesse-profile.webp", alt: "Skill Finesse account: personal information and support", bg: "#f2f3f8" },
       { src: "/screens/skill-finesse-future.webp", alt: "Skill Finesse: the future of e-learning in Bangladesh", bg: "#000000" },
     ],
   },
   {
     name: "Stayverz",
-    tagline: "Hotel booking with real-time availability and secure payments.",
+    tagline: "Short-term rentals across Bangladesh: guests book homes, hosts list a place in ten steps.",
     stack: "Flutter • Provider • Payments",
     platforms: ["Android"],
     tags: ["Travel"],
-    color: "#FB7185",
-    onColor: "#2A0710",
+    color: "#F05926",
+    onColor: "#ffffff",
     stats: [
+      { value: "10K+", label: "Downloads" },
+      { value: "2-sided", label: "Guests and hosts" },
       { value: "Live", label: "Booking flows" },
-      { value: "Secure", label: "Payments" },
-      { value: "Push", label: "Booking alerts" },
     ],
     href: "https://play.google.com/store/apps/details?id=com.stayverz.stayverz",
     store: "Google Play",
+    icon: "/icons/stayverz.webp",
+    screens: [
+      { src: "/screens/stayverz-listings.webp", alt: "Stayverz listings: apartments with nightly prices in Bangladesh", bg: "#ffffff" },
+      { src: "/screens/stayverz-search.webp", alt: "Stayverz search: where, when and who's coming", bg: "#f3f4f6" },
+      { src: "/screens/stayverz-publish.webp", alt: "Stayverz host flow: review and publish a listing", bg: "#ffffff" },
+    ],
   },
 ];
 
