@@ -320,7 +320,7 @@ export function AppShowcase() {
             {app.name}
           </h3>
           <p className="pop mt-3 max-w-md text-[18px] leading-relaxed text-white/80 [--d:120ms]">{app.tagline}</p>
-          <p className="pop mt-2 text-[13px] text-night-muted [--d:160ms]">{app.stack}</p>
+          {app.stack && <p className="pop mt-2 text-[13px] text-night-muted [--d:160ms]">{app.stack}</p>}
 
           <dl className="mt-7 grid max-w-lg grid-cols-3 gap-2.5">
             {app.stats.map((s, i) => (

@@ -4,7 +4,8 @@
 export type AppCard = {
   name: string;
   tagline: string;
-  stack: string;
+  // Tech used. Leave it out when unsure; the line is then hidden.
+  stack?: string;
   platforms: ("iOS" | "Android")[];
   tags: string[];
   // Each app gets its own color for its icon, stats and button.
@@ -169,6 +170,27 @@ export const APPS: AppCard[] = [
       { src: "/screens/stayverz-listings.webp", alt: "Stayverz listings: apartments with nightly prices in Bangladesh", bg: "#ffffff" },
       { src: "/screens/stayverz-search.webp", alt: "Stayverz search: where, when and who's coming", bg: "#f3f4f6" },
       { src: "/screens/stayverz-publish.webp", alt: "Stayverz host flow: review and publish a listing", bg: "#ffffff" },
+    ],
+  },
+  {
+    name: "Tuition Finder",
+    tagline: "Connects students, parents and tutors directly: search by subject, class and location, post a tuition and chat in the app. No commission.",
+    platforms: ["iOS"],
+    tags: ["Education"],
+    color: "#2F7BF5",
+    onColor: "#ffffff",
+    stats: [
+      { value: "5.0★", label: "7 ratings" },
+      { value: "0%", label: "Commission" },
+      { value: "2026", label: "Launched" },
+    ],
+    href: "https://apps.apple.com/us/app/tuition-finder/id6757366885",
+    store: "App Store",
+    icon: "/icons/tuition-finder.webp",
+    screens: [
+      { src: "/screens/tuition-finder-home.webp", alt: "Tuition Finder home: find tutors by curriculum, class, subject and location", bg: "#ffffff" },
+      { src: "/screens/tuition-finder-jobs.webp", alt: "Tuition Finder jobs: tuition posts with subjects, location and pay", bg: "#ffffff" },
+      { src: "/screens/tuition-finder-filter.webp", alt: "Tuition Finder filters: tuition type, monthly budget and tutor gender", bg: "#2e2f33" },
     ],
   },
 ];
