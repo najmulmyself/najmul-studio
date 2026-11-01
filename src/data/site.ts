@@ -37,6 +37,7 @@ export const SITE = {
   github: "https://github.com/najmulmyself",
   linkedin: "https://www.linkedin.com/in/najmulmyself/",
   x: "https://x.com/najmulmyself",
+  threads: "https://www.threads.com/@najmulmyself",
 
   // Optional. Fill these in when you have them.
   // Your Cal.com event, the part after cal.com/ (e.g. "najmul/discovery-call").

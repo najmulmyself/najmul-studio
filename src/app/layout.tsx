@@ -47,7 +47,7 @@ const personSchema = {
   jobTitle: "Indie iOS developer & AI automation builder",
   email: `mailto:${SITE.email}`,
   address: { "@type": "PostalAddress", addressLocality: "Dhaka", addressCountry: "BD" },
-  sameAs: [SITE.github, SITE.linkedin, SITE.x],
+  sameAs: [SITE.github, SITE.linkedin, SITE.x, SITE.threads],
 };
 
 export default function RootLayout({

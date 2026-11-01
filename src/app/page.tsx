@@ -295,6 +295,7 @@ function Contact() {
     { name: "GitHub", href: SITE.github },
     { name: "LinkedIn", href: SITE.linkedin },
     { name: "X", href: SITE.x },
+    { name: "Threads", href: SITE.threads },
   ] as const;
   return (
     <Section id="contact">
