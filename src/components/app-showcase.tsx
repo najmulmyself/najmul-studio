@@ -4,7 +4,7 @@ import { ArrowUpRight } from "@/components/ui";
 import { APPS, type AppCard } from "@/data/site";
 import { track } from "@/lib/analytics";
 import Image from "next/image";
-import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 
 function initials(name: string) {
   return name
@@ -28,37 +28,6 @@ function AppIcon({ app, className = "size-14 rounded-[16px] text-lg" }: { app: A
 }
 
 /* ---------- Mock screens: a quick sketch of each app, drawn in code ---------- */
-
-function GoldScreen() {
-  return (
-    <div className="flex h-full flex-col bg-[#15120a] px-4 pt-14 pb-6 text-white">
-      <p className="font-display text-[22px] leading-tight font-semibold">My gold</p>
-      <div className="mt-3 rounded-[22px] bg-gradient-to-br from-[#F5C542] to-[#c9921a] p-4 text-[#1F1600]">
-        <p className="text-[11px] font-semibold opacity-70">Total saved</p>
-        <p className="font-display text-[30px] leading-none font-bold">
-          2.45<span className="text-[16px]"> g</span>
-        </p>
-        <svg viewBox="0 0 200 50" className="mt-3 w-full" aria-hidden="true">
-          <path d="M0 44 L30 40 L60 36 L90 30 L120 26 L150 16 L200 6" fill="none" stroke="#1F1600" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </div>
-      <div className="mt-3 flex items-center justify-between rounded-2xl bg-white/[0.06] px-3.5 py-3">
-        <span className="text-[12px] leading-tight">
-          <span className="block font-semibold">Auto-Save</span>
-          <span className="text-white/50">Every week via bKash</span>
-        </span>
-        <span className="flex h-6 w-10 items-center justify-end rounded-full bg-[#34c759] p-0.5" aria-hidden="true">
-          <span className="size-5 rounded-full bg-white" />
-        </span>
-      </div>
-      <div className="mt-2 flex items-center justify-between rounded-2xl bg-white/[0.06] px-3.5 py-3 text-[12px]">
-        <span className="text-white/60">Next save</span>
-        <span className="font-semibold">Friday</span>
-      </div>
-      <div className="mt-auto rounded-full bg-[#F5C542] py-2.5 text-center text-[13px] font-bold text-[#1F1600]">Buy gold</div>
-    </div>
-  );
-}
 
 const SCREEN_MS = 3500;
 
@@ -109,9 +78,6 @@ function GenericScreen({ app }: { app: AppCard }) {
   );
 }
 
-const SCREENS: Record<string, () => ReactNode> = {
-  "Gold Kinen": GoldScreen,
-};
 
 /* ---------- The showcase ---------- */
 
@@ -179,7 +145,6 @@ export function AppShowcase() {
   };
 
   const app = APPS[active];
-  const Screen = SCREENS[app.name];
   const cols = 4;
   const origin = `${((active % cols) + 0.5) * (100 / cols)}% ${16 + Math.floor(active / cols) * 16}%`;
 
@@ -266,7 +231,7 @@ export function AppShowcase() {
                 style={{ transformOrigin: origin }}
                 aria-hidden={!open}
               >
-                {app.screens?.length ? <ScreenshotScreen key={app.name} app={app} /> : Screen ? <Screen /> : <GenericScreen app={app} />}
+                {app.screens?.length ? <ScreenshotScreen key={app.name} app={app} /> : <GenericScreen app={app} />}
               </div>
 
               {/* Island and status bar */}

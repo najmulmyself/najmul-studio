@@ -1,4 +1,4 @@
-// Sends named moments ("Hire form sent", "App opened: Gold Kinen"…) to
+// Sends named moments ("Hire form sent", "App opened: DLS Pro"…) to
 // Microsoft Clarity, so recordings can be filtered by what people did.
 // Does nothing until Clarity has loaded (or when a visitor said no).
 
