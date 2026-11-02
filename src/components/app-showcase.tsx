@@ -32,9 +32,18 @@ function AppIcon({ app, className = "size-14 rounded-[16px] text-lg" }: { app: A
 const SCREEN_MS = 3500;
 
 // Real app screenshots, crossfading on a timer; a tap shows the next one.
-function ScreenshotScreen({ app }: { app: AppCard }) {
+// True when a hex colour is light enough to need dark text on top of it.
+function isLight(hex: string) {
+  const n = parseInt(hex.replace("#", ""), 16);
+  const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  return 0.299 * r + 0.587 * g + 0.114 * b > 160;
+}
+
+function ScreenshotScreen({ app, onTop }: { app: AppCard; onTop: (color: string) => void }) {
   const screens = app.screens ?? [];
   const [i, setI] = useState(0);
+  const top = screens[i]?.top ?? screens[i]?.bg ?? "#030617";
+  useEffect(() => onTop(top), [top, onTop]);
   useEffect(() => {
     if (screens.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const id = setInterval(() => setI((n) => (n + 1) % screens.length), SCREEN_MS);
@@ -46,7 +55,8 @@ function ScreenshotScreen({ app }: { app: AppCard }) {
       onClick={() => setI((n) => (n + 1) % screens.length)}
       aria-label={`${app.name} screenshot ${i + 1} of ${screens.length}. Show the next one`}
       className="relative block h-full w-full transition-colors duration-500"
-      style={{ background: screens[i]?.bg ?? "#030617" }}
+      // The status bar strip takes the shot's top colour; the rest its background.
+      style={{ background: `linear-gradient(${top} 0 48px, ${screens[i]?.bg ?? "#030617"} 48px)` }}
     >
       {screens.map((shot, n) => (
         <Image
@@ -56,7 +66,7 @@ function ScreenshotScreen({ app }: { app: AppCard }) {
           width={540}
           height={1118}
           sizes="270px"
-          className={`absolute inset-x-0 top-10 mx-auto h-[calc(100%-40px)] w-auto transition-opacity duration-500 ${n === i ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-x-0 top-10 mx-auto transition-opacity duration-500 ${shot.fill ? "h-auto w-full" : "h-[calc(100%-40px)] w-auto"} ${n === i ? "opacity-100" : "opacity-0"}`}
         />
       ))}
       <span aria-hidden="true" className="absolute inset-x-0 bottom-7 flex justify-center gap-1.5 mix-blend-difference">
@@ -84,6 +94,8 @@ function GenericScreen({ app }: { app: AppCard }) {
 export function AppShowcase() {
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(false);
+  // Colour at the top of the screenshot showing, so the status bar stays readable.
+  const [screenTop, setScreenTop] = useState("#030617");
   const phoneRef = useRef<HTMLDivElement>(null);
   const switchTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -231,11 +243,11 @@ export function AppShowcase() {
                 style={{ transformOrigin: origin }}
                 aria-hidden={!open}
               >
-                {app.screens?.length ? <ScreenshotScreen key={app.name} app={app} /> : <GenericScreen app={app} />}
+                {app.screens?.length ? <ScreenshotScreen key={app.name} app={app} onTop={setScreenTop} /> : <GenericScreen app={app} />}
               </div>
 
               {/* Island and status bar */}
-              <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between px-7 pt-[18px] text-[12px] font-semibold mix-blend-difference">
+              <div aria-hidden="true" className={`pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between px-7 pt-[18px] text-[12px] font-semibold transition-colors duration-500 ${open && app.screens?.length && isLight(screenTop) ? "text-ink" : "text-white"}`}>
                 <span>9:41</span>
                 <span className="flex items-center gap-1">
                   <svg viewBox="0 0 18 12" className="h-2.5 w-4" fill="currentColor">

@@ -136,9 +136,9 @@ function About() {
               I’m an indie developer who likes the last 10% best: the part where an app actually ships.
             </p>
             <p>
-              For 3+ years I’ve taken apps from first commit to the App Store and Play Store: a fintech
-              app at Gold Kinen, a government VAT system, and DLS Pro (it started as Dream Kit 25), a side
-              project I built alone that crossed 500K downloads.
+              For 3+ years I’ve taken apps from first commit to the App Store and Play Store: a government
+              VAT system, client apps like Stayverz and EasyTrax, and DLS Pro (it started as Dream Kit 25), a
+              side project I built alone that crossed 500K downloads.
             </p>
             <p className="font-semibold text-ink">Now I’m going all-in on native iOS.</p>
             <p>

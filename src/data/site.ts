@@ -22,7 +22,9 @@ export type AppCard = {
   // Optional real screenshots (in /public, status bar cropped off) shown on the
   // phone mockup in place of the drawn screen. They rotate, and a tap skips ahead.
   // bg fills any gap around the shot (match the app's background).
-  screens?: { src: string; alt: string; bg?: string }[];
+  // top: colour at the top of the shot (sets the status bar tone; defaults to bg).
+  // fill: fit the width and sit at the top (for shots from older, wider 16:9 iPhones).
+  screens?: { src: string; alt: string; bg?: string; top?: string; fill?: boolean }[];
 };
 
 export type Stat = { value: string; label: string };
@@ -177,6 +179,30 @@ export const APPS: AppCard[] = [
       { src: "/screens/stayverz-listings.webp", alt: "Stayverz listings: apartments with nightly prices in Bangladesh", bg: "#ffffff" },
       { src: "/screens/stayverz-search.webp", alt: "Stayverz search: where, when and who's coming", bg: "#f3f4f6" },
       { src: "/screens/stayverz-publish.webp", alt: "Stayverz host flow: review and publish a listing", bg: "#ffffff" },
+    ],
+  },
+  {
+    name: "EasyTrax",
+    tagline:
+      "GPS fleet tracking: live vehicle locations, speed and idle time, trip reports and remote engine lock for businesses in Bangladesh.",
+    platforms: ["iOS", "Android"],
+    tags: ["Logistics"],
+    color: "#0A72B2",
+    onColor: "#ffffff",
+    stats: [
+      { value: "10K+", label: "Downloads" },
+      { value: "4.1★", label: "328 reviews" },
+      { value: "Since 2019", label: "Live and updated" },
+    ],
+    href: "https://play.google.com/store/apps/details?id=com.bd.easytraxstandard",
+    store: "Google Play",
+    alsoOn: { store: "App Store", href: "https://apps.apple.com/us/app/easytrax-gps-tracking/id1476965773" },
+    icon: "/icons/easytrax.webp",
+    screens: [
+      { src: "/screens/easytrax-map.webp", alt: "EasyTrax: a live map of every vehicle in the fleet", bg: "#ffffff", top: "#0672b2", fill: true },
+      { src: "/screens/easytrax-vehicle.webp", alt: "EasyTrax vehicle view: location, speed, odometer and ignition", bg: "#ffffff", top: "#f4f4f4", fill: true },
+      { src: "/screens/easytrax-status.webp", alt: "EasyTrax fleet status: moving, idle, stopped and offline vehicles", bg: "#ffffff", top: "#0672b2", fill: true },
+      { src: "/screens/easytrax-lock.webp", alt: "EasyTrax remote engine lock and unlock", bg: "#ffffff", top: "#0672b2", fill: true },
     ],
   },
   {
