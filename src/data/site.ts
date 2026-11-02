@@ -15,6 +15,8 @@ export type AppCard = {
   stats: [Stat, Stat, Stat];
   href: string;
   store: string;
+  // Button text when the main link isn't a store listing yet (e.g. "Visit tixeconcept.com").
+  cta?: string;
   // A second store listing, e.g. the App Store version of an Android app.
   alsoOn?: { store: string; href: string };
   // Optional app icon in /public. Without one, a tile with initials is shown.
@@ -203,6 +205,32 @@ export const APPS: AppCard[] = [
       { src: "/screens/easytrax-vehicle.webp", alt: "EasyTrax vehicle view: location, speed, odometer and ignition", bg: "#ffffff", top: "#f4f4f4", fill: true },
       { src: "/screens/easytrax-status.webp", alt: "EasyTrax fleet status: moving, idle, stopped and offline vehicles", bg: "#ffffff", top: "#0672b2", fill: true },
       { src: "/screens/easytrax-lock.webp", alt: "EasyTrax remote engine lock and unlock", bg: "#ffffff", top: "#0672b2", fill: true },
+    ],
+  },
+  {
+    name: "Tixe",
+    tagline:
+      "A military-style fitness app: tactical training courses, strength workouts, activity tracking and a gear store, with a built-in wallet.",
+    platforms: ["iOS", "Android"],
+    tags: ["Fitness", "Coming soon"],
+    color: "#E2CA06",
+    onColor: "#121106",
+    stats: [
+      { value: "4-in-1", label: "Courses, workouts, tracking, gear" },
+      { value: "Wallet", label: "Pay, sell and withdraw" },
+      { value: "Soon", label: "On iOS and Android" },
+    ],
+    // Not on the stores yet: link the site (it has the waitlist) until it launches.
+    href: "https://tixeconcept.com/",
+    store: "Website",
+    cta: "Visit tixeconcept.com",
+    icon: "/icons/tixe.webp",
+    screens: [
+      { src: "/screens/tixe-trainings.webp", alt: "Tixe trainings: tactical courses like long range sniper training", bg: "#121106" },
+      { src: "/screens/tixe-workouts.webp", alt: "Tixe workouts: strength and HIIT sessions", bg: "#121106" },
+      { src: "/screens/tixe-fitness.webp", alt: "Tixe fitness tracking: steps, calories, activity and heart rate", bg: "#121106" },
+      { src: "/screens/tixe-store.webp", alt: "Tixe store: browse tactical gear", bg: "#121106", top: "#121106" },
+      { src: "/screens/tixe-wallet.webp", alt: "Tixe wallet: balance and history", bg: "#121106" },
     ],
   },
   {

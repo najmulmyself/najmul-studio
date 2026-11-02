@@ -323,7 +323,7 @@ export function AppShowcase() {
               className="sheen inline-flex min-h-12 items-center gap-2 rounded-full px-6 font-semibold transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.97]"
               style={{ background: app.color, color: app.onColor }}
             >
-              Open on {app.store} <ArrowUpRight />
+              {app.cta ?? `Open on ${app.store}`} <ArrowUpRight />
             </a>
             {app.alsoOn && (
               <a
